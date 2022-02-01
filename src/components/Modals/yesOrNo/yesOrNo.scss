@@ -1,0 +1,46 @@
+.yes-or-no {
+  display: flex;
+  flex-direction: column;
+  .header-modal {
+    display: flex;
+    justify-content: space-between;
+    div {
+      color: var(--color-main);
+      font-size: var(--font-size-6);
+    }
+  }
+  .body {
+    display: flex;
+    justify-content: center;
+    padding-top: 20px;
+  }
+  .bottuns {
+    display: flex;
+    justify-content: space-evenly;
+    padding-top: 20px;
+    .yes {
+      flex: 1;
+      background-color: white;
+      color: var(--color-main);
+      border-radius: 5px;
+      padding: 6px 15px;
+      border: 1px solid var(--color-main);
+      font-weight: 500;
+      margin: 1px;
+    }
+    .yes:hover {
+      background-color: var(--color-main);
+      color: white;
+      border: 0;
+    }
+    .no:hover {
+      background-color: var(--color-danger-light-1);
+      color: var(--color-danger);
+      border: 1px solid var(--color-danger);
+    }
+  }
+}
+.customModal {
+  border-radius: 20px;
+  max-width: 620px;
+}

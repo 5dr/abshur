@@ -1,0 +1,20 @@
+{
+    "pages": {
+        "home": "Home",
+        "checkUser": "Login",
+        "login": "Login",
+        "token": "Login",
+        "booking": "Booking Panel",
+        "completeProfile": "Create New Account",
+        "register": "Create New Account",
+        "forgetPassword": "Reset Password",
+        "changePassword": "Reset Password",
+        "board": "My Board",
+        "setting": "Setting",
+        "addClinic": "Add Clinic",
+        "addLab": "Add Lab",
+        "addImagingCenter": "Add Imaging Center",
+        "addPatient": "Add Patient",
+        "addBooking": "Add Booking"
+      }
+}

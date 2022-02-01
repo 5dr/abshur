@@ -1,0 +1,20 @@
+// eslint-disable-next-line import/no-anonymous-default-export
+export default {
+  HOME: '/home',
+  PROPERTY_10_DAY:'/property10Day',
+  PROPERTY_FINISHED: '/propertyEnd',
+  PROPERTY_EMPTY: '/propertyEmpty',
+  REQUESTS_AND_FEEDBACK: '/RequestsAndFeedback',
+  SEARCH: '/search',
+  CREATE_PROPERTY: '/createProperty',
+  CHECK_USER: '/checkUser',
+  LOGIN: '/login',
+  Contact: '/contact',
+  FORGET_PASSWORD: '/forgetPassword',
+  CHANGE_PASSWORD: '/changePassword',
+  COMPLETE_PROFILE: '/completeProfile',
+  SETTINGS: '/settings',
+  PROFILE: '/profile',
+  PROPERTY_DETAIL: '/propertyDetail',
+  UNIT_DETAIL: '/unitDetail',
+};

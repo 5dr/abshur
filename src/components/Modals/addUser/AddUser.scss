@@ -1,0 +1,83 @@
+.addUser {
+  display: flex;
+  flex-direction: column;
+  .header-modal {
+    display: flex;
+    justify-content: space-between;
+    div {
+      color: var(--color-main);
+      font-size: var(--font-size-6);
+    }
+  }
+  .body {
+    display: flex;
+    justify-content: center;
+    padding-top: 20px;
+    form {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      .form {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        margin: 20px 0;
+        > div {
+          margin: 10px 5px;
+          display: flex;
+          flex-wrap: wrap;
+          justify-content: space-between;
+          label {
+            color: var(--color-main);
+            display: flex;
+          }
+          input {
+            border-radius: 5px;
+            padding: 2px;
+            border-color: var(--color-main);
+            font-weight: 400;
+            border: 1px solid;
+            max-height: 30px;
+          }
+        }
+      }
+    }
+  }
+}
+@keyframes customEnterOverlayAnimation {
+  0% {
+    transform: scale(0);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+@keyframes customLeaveOverlayAnimation {
+  0% {
+    transform: scale(1);
+  }
+  100% {
+    transform: scale(0);
+  }
+}
+
+@keyframes customEnterModalAnimation {
+  0% {
+    transform: scale(0.2);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+@keyframes customLeaveModalAnimation {
+  0% {
+    transform: scale(1);
+  }
+  100% {
+    transform: scale(0.2);
+  }
+}
+.customModal {
+  border-radius: 20px;
+  max-width: 620px;
+}

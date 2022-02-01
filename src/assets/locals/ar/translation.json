@@ -1,0 +1,72 @@
+{
+  "pages": {
+    "home": "الرئيسية",
+    "checkUser": "تسجيل الدخول",
+    "login": "تسجيل الدخول",
+    "token": "تسجيل الدخول",
+    "property-10-day": "اقل من 10",
+    "property-finished": "انتهت",
+    "property-empty": "فارغة",
+    "Requests-Feedback": "الطلبات",
+    "completeProfile": "انشاء حساب جديد",
+    "register": "انشاء حساب جديد",
+    "forgetPassword": "إعادة تعيين كلمة المرور",
+    "changePassword": "إعادة تعيين كلمة المرور",
+    "board": "اللوحة",
+    "setting": "الاعدادات",
+    "addClinic": "إضافة عيادة",
+    "addPatient": "إضافة مريض",
+    "addBooking": "إضافة حجز",
+    "addLab": "إضافة معمل",
+    "addImagingCenter": "إضافة مركز تصوير"
+  },
+  "login": {
+    "welcome": "مرحبا بك",
+    "welcome-msg": "قم بتسجيل الدخول حتى تتمكن من المتابعة",
+    "input-mobile": "ادخل رقم الهاتف",
+    "input-password": "ادخل كلمة المرور",
+    "button-login": "تسجيل الدخول"
+  },
+  "home": {
+    "property-num": "رقم العقار",
+    "property-name": "اسم العقار",
+    "property-date": "تاريخ العقار",
+    "property-address": "عنوان العقار",
+    "property-owner": "مالك العقار",
+    "property-owner-phone": "جوال مالك العقار",
+    "property-numberOfUnits": "عدد الوحدات العقار",
+    "add-property": "اضافة عقار",
+    "add-unit": "اضافة وحدة"
+  },
+  "create-property": {
+    "mobile": "الهاتف",
+    "name": "الاسم",
+    "property-id": "رقم الصك",
+    "property-date": "تاريخ الصك",
+    "address": "العنوان",
+    "fees": "المصروفات",
+    "property-num": "رقم العقار",
+    "number-of-units": "عدد الوحدات",
+    "commission": "النسبة",
+    "added-fees": "مصروفات اضافية",
+    "add": "اضافة",
+    "pass-word": "كلمله السر",
+    "revenue": "الايرادات",
+    "profitRatio": "نسبة الربح"
+  },
+  "create-unit": {
+    "mobile": "الهاتف",
+    "name": "الاسم",
+    "notes": "ملحوظات",
+    "unit-number": "رقم الوحدة",
+    "user-phone": "رقم جوال المستأجر",
+    "rent-price": "قيمة الايجار",
+    "rent-date": "تاريخ الايجار",
+    "pay-date": "تاريخ الدفع",
+    "images": "نسخة العقد",
+    "payment-plan": "نوع الدفع",
+    "unit-status": "حالة الوحدة",
+    "electricity-number": "رقم عداد الكهرباء",
+    "add": "اضافة"
+  }
+}
