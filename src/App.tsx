@@ -5,6 +5,8 @@ import Header from "./components/Header/Header";
 import i18n from "./services/i18n";
 import Login from "./container/Login/Login";
 import { ReactComponent as Wave } from "./assets/img/wave.svg";
+import { ReactComponent as Avater } from "./assets/img/avater.svg";
+import img from "./assets/img/img.png";
 import Home from "./container/Home/Home";
 import Property10Day from "./container/Property10Day/Property10Day";
 import PropertyFinished from "./container/PropertyFinished/PropertyFinished";
@@ -17,11 +19,11 @@ import { toastOptions } from "./services/toast/toast";
 import "react-toastify/dist/ReactToastify.css";
 import useToken from "./hooks/useToken";
 import { useEffect, useState } from "react";
-import { setallProperties } from "./store/actions";
 import { useDispatch } from "react-redux";
-import CreatePropertyModal from "./components/Modals/createProperty/CreateProperty";
-import { ModalType } from "./components/Modals/modalType";
 import PropertyDetail from "./container/PropertyDetail/PropertyDetail";
+import UnitDetails from "./container/UnitDetail/UnitDetails";
+import { IoMdSend } from "react-icons/io";
+import Requests from "./container/Requests/Requests";
 
 function App() {
   const location = useLocation();
@@ -50,9 +52,9 @@ function App() {
       <div dir={i18n.dir()} className="App">
         {token && <Header Logout={Logout} />}
         <div className="main d-flex" style={!token ? { top: 0 } : {}}>
-          {location.pathname !== routes.REQUESTS_AND_FEEDBACK && token && (
-            <Wave />
-          )}
+          {location.pathname !== routes.REQUESTS_AND_FEEDBACK &&
+            location.pathname !== routes.UNIT_DETAIL &&
+            token && <Wave />}
           <Routes>
             <Route>
               <Route
@@ -73,16 +75,13 @@ function App() {
                 path={routes.CREATE_PROPERTY}
                 element={<PropertyEmpty />}
               />
+              <Route path={routes.UNIT_DETAIL} element={<UnitDetails />} />
               <Route
                 path={routes.REQUESTS_AND_FEEDBACK}
-                element={<Settings />}
+                element={<Requests />}
               />
               <Route
                 path={routes.PROPERTY_DETAIL}
-                element={<PropertyDetail />}
-              />
-               <Route
-                path={routes.UNIT_DETAIL}
                 element={<PropertyDetail />}
               />
               <Route path="*" caseSensitive element={<NotFonud />} />
@@ -94,13 +93,6 @@ function App() {
     </>
   );
 }
-const Settings = () => {
-  return (
-    <div>
-      <h1>Settings</h1>
-    </div>
-  );
-};
 const NotFonud = () => {
   return (
     <div>

@@ -36,7 +36,9 @@
     "property-owner-phone": "جوال مالك العقار",
     "property-numberOfUnits": "عدد الوحدات العقار",
     "add-property": "اضافة عقار",
-    "add-unit": "اضافة وحدة"
+    "add-unit": "اضافة وحدة",
+    "edit-property": "تعديل عقار",
+    "edit-unit": "تعديل وحدة"
   },
   "create-property": {
     "mobile": "الهاتف",
@@ -50,6 +52,7 @@
     "commission": "النسبة",
     "added-fees": "مصروفات اضافية",
     "add": "اضافة",
+    "edit": "تعديل",
     "pass-word": "كلمله السر",
     "revenue": "الايرادات",
     "profitRatio": "نسبة الربح"
@@ -68,5 +71,14 @@
     "unit-status": "حالة الوحدة",
     "electricity-number": "رقم عداد الكهرباء",
     "add": "اضافة"
+  },
+  "unitDetail": {
+    "unitNumber": "رقم الوحدة",
+    "rentPrice": "قيمة الايجار",
+    "payDate": "تاريخ الدفع",
+    "rentalDate": "تاريخ الايجار",
+    "electricityNumber": "رقم عداد الكهرباء",
+    "paymentPlan": "نوع الدفع",
+    "unitStatus": "حالة الوحدة"
   }
 }

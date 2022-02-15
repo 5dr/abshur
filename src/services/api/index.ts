@@ -5,6 +5,11 @@ import {
   createUnit,
   getProperty,
   getUnits,
+  updateProperty,
+  sendMsg,
+  getChat,
+  addMaintenance,
+  getMaintenance,
 } from "./realty";
 
 export default {
@@ -14,4 +19,9 @@ export default {
   register,
   getProperty,
   getUnits,
+  updateProperty,
+  sendMsg,
+  getChat,
+  addMaintenance,
+  getMaintenance,
 };

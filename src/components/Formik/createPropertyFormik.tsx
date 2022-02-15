@@ -1,23 +1,31 @@
 import { Formik } from "formik";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
+import { getDateFormat } from "../../assets/constants/memento";
 import { Realty } from "../../assets/constants/type";
 import { validationCreatePropertySchema } from "../../assets/constants/validationForm/validationForm";
 import apiService from "../../services/api";
+import { successToast } from "../../services/toast/toast";
 import YesOrNoModal from "../Modals/yesOrNo/yeaOrNo";
 
-const CreatePropertyFormik = () => {
+type Props = {
+  editData?: any;
+};
+
+const CreatePropertyFormik: React.FC<Props> = ({ editData }) => {
   const { t } = useTranslation();
+  //const [propertyDate, setPropertyDate] = useState("");
+
   let realty: Realty = {
-    userPhone: "",
-    number: "",
-    name: "",
-    propertyId: "",
-    propertyDate: "",
-    address: "",
-    commission: "",
-    fees: 0,
-    addedFees: 0,
+    userPhone: editData ? editData.user.phone : "",
+    number: editData ? editData.number : "",
+    name: editData ? editData.name : "",
+    propertyId: editData ? editData.propertyId : "",
+    propertyDate: editData ? getDateFormat(editData.propertyDate) : "",
+    address: editData ? editData.address : "",
+    commission: editData ? editData.commission : "",
+    fees: editData ? editData.fees : 0,
+    addedFees: editData ? editData.addedFees : 0,
   };
 
   const [openModalYesOrNo, setOpenModalYesOrNo] = useState(false);
@@ -27,6 +35,43 @@ const CreatePropertyFormik = () => {
     setOpenModalYesOrNo(!openModalYesOrNo);
   };
 
+  const addOrEditProperty = async (values: any) => {
+    try {
+      if (editData) {
+        console.log("edit");
+      } else {
+        await apiService.createProperty(values);
+        successToast("تم اضافة العقار");
+      }
+    } catch (error: any) {
+      console.log(error);
+      console.log(error.data.feedback.en);
+      if (
+        error.data.feedback.en ===
+        "Please make sure that you have entered a valid phone number"
+      ) {
+        setCurrentUserPhone(values.userPhone ? values.userPhone : "");
+        openCloseModalYesOrNo();
+      }
+    }
+  };
+
+  const handlerInput = (
+    e:
+      | React.ChangeEvent<HTMLInputElement>
+      | React.ChangeEvent<HTMLSelectElement>
+  ) => {
+    const attrName = e.target.id;
+    const attrValue = e.target.value;
+    console.log(
+      attrName,
+      attrValue,
+      editData.propertyDate,
+      new Date(attrValue).getTime(),
+      new Date(attrValue).toISOString()
+    );
+  };
+
   return (
     <>
       <YesOrNoModal
@@ -34,28 +79,18 @@ const CreatePropertyFormik = () => {
         onModalClose={openCloseModalYesOrNo}
         message={msg}
         phone={currentUserPhone}
-        role={'owner'}
+        role={"owner"}
       />
       <Formik
         initialValues={realty}
         validationSchema={validationCreatePropertySchema}
         onSubmit={async (values) => {
-          try {
-            console.log(values);
-            alert(JSON.stringify(values, null, 2));
-            const data = await apiService.createProperty(values);
-            console.log("data", data);
-          } catch (error: any) {
-            console.log(error);
-            console.log(error.data.feedback.en);
-            if (
-              error.data.feedback.en ===
-              "Please make sure that you have entered a valid phone number"
-            ) {
-              setCurrentUserPhone(values.userPhone?values.userPhone:'');
-              openCloseModalYesOrNo();
-            }
-          }
+          values = {
+            ...values,
+            propertyDate: new Date(values.propertyDate).toISOString(),
+          };
+          console.log(values);
+          addOrEditProperty(values);
         }}
       >
         {(formik) => (
@@ -166,7 +201,9 @@ const CreatePropertyFormik = () => {
                 // onClick={createProperty}
                 className="create-btn mt-5"
               >
-                {t("create-property.add")}
+                {editData
+                  ? t("create-property.edit")
+                  : t("create-property.add")}
               </button>
             </div>
           </form>

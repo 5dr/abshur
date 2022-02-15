@@ -11,6 +11,7 @@ import { rootState } from "../../store/reducers";
 import { setAllUnit } from "../../store/actions";
 import AddFees from "../../components/Modals/AddFees/AddFees";
 import UnitCard from "../../components/PropertyCard/UnitCard";
+import { getDateFormat } from "../../assets/constants/memento";
 
 const PropertyDetail = () => {
   const { t } = useTranslation();
@@ -126,7 +127,7 @@ const PropertyDetail = () => {
             </div>
             <div>
               {t("create-property.property-date")} :
-              <span> {currentProperty.propertyDate}</span>
+              <span> {getDateFormat(currentProperty.propertyDate)}</span>
             </div>
             <div>
               {t("home.property-address")} :
@@ -167,7 +168,6 @@ const PropertyDetail = () => {
         </div>
       )}
       <div className="units col-md-9 col-12">
-        <Wave />
         {units.map((r: Unit) => {
           return <UnitCard key={r.id} Unit={r} />;
         })}
@@ -176,6 +176,3 @@ const PropertyDetail = () => {
   );
 };
 export default PropertyDetail;
-function dispatch(arg0: any) {
-  throw new Error("Function not implemented.");
-}

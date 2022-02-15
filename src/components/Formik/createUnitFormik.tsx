@@ -1,26 +1,51 @@
 import { Formik } from "formik";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
+import { useSelector } from "react-redux";
+import { getDateFormat } from "../../assets/constants/memento";
 import { Unit } from "../../assets/constants/type";
 import { validationCreateUnitSchema } from "../../assets/constants/validationForm/validationForm";
 import apiService from "../../services/api";
+import { successToast } from "../../services/toast/toast";
+import { rootState } from "../../store/reducers";
 import YesOrNoModal from "../Modals/yesOrNo/yeaOrNo";
 
-const CreateUnitFormik = () => {
+type Props = {
+  editData?: any;
+};
+const allPaymentPlan = [
+  { value: "monthly", name: "شهريا" },
+  { value: "quarterly", name: "ربع سنوي" },
+  { value: "biannual", name: "نصف سنوي" },
+  { value: "annual", name: "سنويا" },
+];
+
+const allUnitStatus = [
+  { value: "empty", name: "فارغة" },
+  { value: "not-paid", name: "لم تدفع" },
+  { value: "paid", name: "تم الدفع" },
+];
+
+const CreateUnitFormik: React.FC<Props> = ({ editData }) => {
   const { t } = useTranslation();
   const [pay, setPayDate] = useState(0);
+
+  const currentProperty = useSelector(
+    (state: rootState) => state.abshur.currentProperty
+  );
+
   let unit: Unit = {
     tenantPhone: "",
     images: {},
-    unitNumber: "",
-    propertyId: 10,
-    payDate: 0,
+    unitNumber: editData ? editData.unitNumber : "",
+    propertyId: currentProperty.id,
+    payDate: editData ? getDateFormat(editData.payDate) : 0,
     rentalDate: new Date().getTime(),
-    rentPrice: 0,
-    electricityNumber: "",
-    paymentPlan: "",
-    unitStatus: "",
-    notes: "",
+    rentPrice: editData ? editData.rentPrice : 0,
+    electricityNumber: editData ? editData.electricityNumber : "",
+    paymentPlan: editData ? editData.paymentPlan : "",
+    unitStatus: editData ? editData.unitStatus : "",
+    notes: editData ? editData.notes : "",
   };
 
   const [openModalYesOrNo, setOpenModalYesOrNo] = useState(false);
@@ -62,6 +87,7 @@ const CreateUnitFormik = () => {
         onSubmit={async (values) => {
           try {
             values = { ...values, payDate: pay };
+            console.log(values);
             const formData = new FormData();
             Object.entries(values).forEach((element) => {
               console.log(element[0], element[1]);
@@ -74,6 +100,7 @@ const CreateUnitFormik = () => {
               }
             });
             await apiService.createUnit(formData);
+            successToast("تم اضافة الوحده");
           } catch (error: any) {
             console.log(error);
             console.log(error.data.feedback.en);
@@ -173,13 +200,16 @@ const CreateUnitFormik = () => {
                   id="paymentPlan"
                   {...formik.getFieldProps("paymentPlan")}
                 >
-                  <option selected disabled value="">
-                    Payment Plan
+                  <option disabled value="">
+                    {"خطةالدفع"}
                   </option>
-                  <option>monthly</option>
-                  <option>quarterly</option>
-                  <option>biannual</option>
-                  <option>annual</option>
+                  {allPaymentPlan.map((plan) => {
+                    return (
+                      <option key={plan.value} value={plan.value}>
+                        {plan.name}
+                      </option>
+                    );
+                  })}
                 </select>
                 {formik.touched.paymentPlan && formik.errors.paymentPlan ? (
                   <div className="error m-0">{formik.errors.paymentPlan}</div>
@@ -194,12 +224,16 @@ const CreateUnitFormik = () => {
                   id="unitStatus"
                   {...formik.getFieldProps("unitStatus")}
                 >
-                  <option selected disabled value="">
-                    Unit Status
+                  <option disabled value="">
+                    {"حاله الوحده"}
                   </option>
-                  <option>empty</option>
-                  <option>not-paid</option>
-                  <option>paid</option>
+                  {allUnitStatus.map((status) => {
+                    return (
+                      <option key={status.value} value={status.value}>
+                        {status.name}
+                      </option>
+                    );
+                  })}
                 </select>
                 {formik.touched.unitStatus && formik.errors.unitStatus ? (
                   <div className="error m-0">{formik.errors.unitStatus}</div>
@@ -238,12 +272,8 @@ const CreateUnitFormik = () => {
               </div>
             </div>
             <div className="submit">
-              <button
-                type="submit"
-                // onClick={createProperty}
-                className="create-btn mt-5"
-              >
-                {t("create-unit.add")}
+              <button type="submit" className="create-btn mt-5">
+                {editData ? t("create-property.edit") : t("create-unit.add")}
               </button>
             </div>
           </form>

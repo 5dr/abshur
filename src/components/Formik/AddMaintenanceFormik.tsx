@@ -1,13 +1,11 @@
 import { Formik } from "formik";
-import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useSelector } from "react-redux";
-import { Realty } from "../../assets/constants/type";
 import { validationAddFeesSchema } from "../../assets/constants/validationForm/validationForm";
 import apiService from "../../services/api";
 import { rootState } from "../../store/reducers";
 
-const AddFeesFormik = () => {
+const AddMaintenanceFormik = () => {
   const { t } = useTranslation();
   const currentProperty = useSelector(
     (state: rootState) => state.abshur.currentProperty
@@ -105,4 +103,4 @@ const AddFeesFormik = () => {
   );
 };
 
-export default AddFeesFormik;
+export default AddMaintenanceFormik;

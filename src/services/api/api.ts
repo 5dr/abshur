@@ -25,8 +25,28 @@ class ApiService {
       url: "/property",
       type: "GET",
     },
+    updateProperty: {
+      url: "/property/{id}",
+      type: "PATCH",
+    },
     getUnits: {
       url: "/unit",
+      type: "GET",
+    },
+    sendMsg: {
+      url: "/chat",
+      type: "POST",
+    },
+    getChat: {
+      url: "/chat",
+      type: "GET",
+    },
+    addMaintenance: {
+      url: "/maintenance",
+      type: "POST",
+    },
+    getMaintenance: {
+      url: "/maintenance",
       type: "GET",
     },
   };
@@ -48,7 +68,7 @@ class ApiService {
     }
     const ss = this.get(service);
     const headers: any = {
-      'Content-Type': 'application/json; charset=utf-8',
+      "Content-Type": "application/json; charset=utf-8",
       Accept: "application/json",
     };
     const lang = localStorage.getItem("i18nextLng") || null;

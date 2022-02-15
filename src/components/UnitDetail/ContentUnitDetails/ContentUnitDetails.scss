@@ -1,0 +1,23 @@
+.received {
+  color: var(--color-main);
+  display: flex;
+  justify-content: flex-end;
+  > div {
+    background-color: white;
+    padding: 5px 12px;
+    margin: 10px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  }
+}
+.sent {
+  color: white;
+  display: flex;
+  > div {
+    background-color: var(--color-main);
+    padding: 5px 12px;
+    margin: 10px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.8);
+  }
+}

@@ -28,7 +28,6 @@ const AddUserFormik: React.FC<Props> = ({ phone, role }) => {
         onSubmit={async (values) => {
           values = { ...values};
           try {
-            console.log(values);
             alert(JSON.stringify(values, null, 2));
             const data = await apiService.register(values);
             console.log("data", data);

@@ -20,70 +20,14 @@
   margin-top: 20px;
   top: 70px;
   overflow: auto;
-  svg {
+  > svg {
     display: inline-block;
     position: fixed;
     top: 85px;
     left: 0;
     z-index: -1;
   }
-  // @media (max-width: 1060px) {
-  //   svg {
-  //     top: 130px;
-  //   }
-  // }
-  // @media (max-width: 660px) {
-  //   svg {
-  //     top: 170px;
-  //   }
-  // }
-  // @media (max-width: 500px) {
-  //   svg {
-  //     top: 300px;
-  //   }
-  // }
 }
-// @media (max-width: 768px) {
-//   .units {
-//     max-height: 430px;
-//   }
-// }
-// @media (max-width: 1060px) {
-//   .main {
-//     height: 666px;
-//   }
-// }
-// @media (max-width: 802px) {
-//   .main {
-//     height: 656px;
-//   }
-// }
-// @media (max-width: 650px) {
-//   .main {
-//     height: 624px;
-//   }
-//   .units {
-//     max-height: 400px;
-//   }
-// }
-// @media (max-width: 500px) {
-//   .main {
-//     height: 493px;
-//   }
-//   .units {
-//     max-height: 268px;
-//   }
-// }
-// @media (max-width: 411px) {
-//   .main {
-//     height: 427px;
-//   }
-// }
-// @media (max-width: 360px) {
-//   .main {
-//     height: 338px;
-//   }
-// }
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
   -webkit-appearance: none;

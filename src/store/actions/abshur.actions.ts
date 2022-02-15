@@ -39,7 +39,6 @@ export const setallProperties =
 
 export const setAllUnit =
   (propertyId?: number) => async (dispatch: Dispatch, getState: any) => {
-    console.log("2222222222222222");
     const { data } = await apiService.getUnits({
       limit: "",
       page: "",
@@ -55,4 +54,9 @@ export const setAllUnit =
 export const setCurrentProperty =
   (property: any) => async (dispatch: Dispatch, getState: any) => {
     dispatch({ type: SET_CURRENT_PROPERTIES, payload: property });
+  };
+
+export const setCurrentUnit =
+  (unit: any) => async (dispatch: Dispatch, getState: any) => {
+    dispatch({ type: SET_CURRENT_UNITS, payload: unit });
   };
