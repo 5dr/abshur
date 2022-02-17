@@ -7,6 +7,8 @@ import {
   SET_PROPERTIES_EMPTY,
   SET_PROPERTIES_FINISHED,
   SET_PROPERTIES_TEN_DAYS,
+  SET_CURRENT_MAINTENANCE,
+  ADD_MAINTENANCE,
 } from "./actionTypes";
 import { Dispatch } from "./types";
 import apiService from "../../services/api";
@@ -50,6 +52,25 @@ export const setAllUnit =
     console.log("data", data.data);
     dispatch({ type: SET_UNITS, payload: data.data });
   };
+const setCurrentMaintenance =
+  (unitId: number) => async (dispatch: Dispatch, getState: any) => {
+    console.log("setCurrentMaintenance", unitId);
+    const { data } = await apiService.getMaintenance({
+      limit: "",
+      page: "",
+      key: "maintenance",
+      sort: "",
+      unitId: unitId,
+    });
+    console.log("data", data.data);
+    dispatch({ type: SET_CURRENT_MAINTENANCE, payload: data.data });
+  };
+
+export const addMaintenance =
+  (maintenance: any) => async (dispatch: Dispatch, getState: any) => {
+    console.log("setCurrentUnit", maintenance);
+    dispatch({ type: ADD_MAINTENANCE, payload: maintenance });
+  };
 
 export const setCurrentProperty =
   (property: any) => async (dispatch: Dispatch, getState: any) => {
@@ -57,6 +78,8 @@ export const setCurrentProperty =
   };
 
 export const setCurrentUnit =
-  (unit: any) => async (dispatch: Dispatch, getState: any) => {
+  (unit: any) => async (dispatch: any, getState: any) => {
+    console.log("setCurrentUnit", unit);
+    dispatch(setCurrentMaintenance(unit.id));
     dispatch({ type: SET_CURRENT_UNITS, payload: unit });
   };

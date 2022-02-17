@@ -6,7 +6,7 @@ import { getDateFormat } from "../../assets/constants/memento";
 import { Unit } from "../../assets/constants/type";
 import { validationCreateUnitSchema } from "../../assets/constants/validationForm/validationForm";
 import apiService from "../../services/api";
-import { successToast } from "../../services/toast/toast";
+import { errorToast, successToast } from "../../services/toast/toast";
 import { rootState } from "../../store/reducers";
 import YesOrNoModal from "../Modals/yesOrNo/yeaOrNo";
 
@@ -103,7 +103,7 @@ const CreateUnitFormik: React.FC<Props> = ({ editData }) => {
             successToast("تم اضافة الوحده");
           } catch (error: any) {
             console.log(error);
-            console.log(error.data.feedback.en);
+            errorToast(error.data.feedback.en);
             if (
               error.data.feedback.en ===
               "Please make sure that you have entered a valid phone number"

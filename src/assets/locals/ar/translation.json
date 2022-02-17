@@ -79,6 +79,9 @@
     "rentalDate": "تاريخ الايجار",
     "electricityNumber": "رقم عداد الكهرباء",
     "paymentPlan": "نوع الدفع",
-    "unitStatus": "حالة الوحدة"
+    "unitStatus": "حالة الوحدة",
+    "request":"تفاصيل الصيانة",
+    "cost":"التكلفة",
+    "img":"صور للصيانة"
   }
 }

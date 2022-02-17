@@ -1,10 +1,9 @@
 import { Formik } from "formik";
 import { useTranslation } from "react-i18next";
 import { User } from "../../assets/constants/type";
-import {
-  validationAddUserSchema,
-} from "../../assets/constants/validationForm/validationForm";
+import { validationAddUserSchema } from "../../assets/constants/validationForm/validationForm";
 import apiService from "../../services/api";
+import { errorToast } from "../../services/toast/toast";
 
 type Props = {
   phone?: string;
@@ -26,7 +25,7 @@ const AddUserFormik: React.FC<Props> = ({ phone, role }) => {
         initialValues={user}
         validationSchema={validationAddUserSchema}
         onSubmit={async (values) => {
-          values = { ...values};
+          values = { ...values };
           try {
             alert(JSON.stringify(values, null, 2));
             const data = await apiService.register(values);
@@ -34,6 +33,7 @@ const AddUserFormik: React.FC<Props> = ({ phone, role }) => {
           } catch (error: any) {
             console.log(error);
             console.log(error.data.feedback.en);
+            errorToast(error.data.feedback.en);
           }
         }}
       >

@@ -5,11 +5,18 @@ import { useState } from "react";
 import { apiUrl } from "../../services/api/serverUrl";
 import AddMaintenance from "../../components/Modals/AddMaintenance/AddMaintenance";
 import ContentUnitDetails from "../../components/UnitDetail/ContentUnitDetails/ContentUnitDetails";
+import { useTranslation } from "react-i18next";
+import { getDateFormat } from "../../assets/constants/memento";
 
 const UnitDetails = () => {
   const [notes, openNotes] = useState(true);
+  const { t } = useTranslation();
+
   const currentUnits = useSelector(
     (state: rootState) => state.abshur.currentUnits
+  );
+  const currentMaintenance = useSelector(
+    (state: rootState) => state.abshur.currentMaintenance
   );
   const widthImgs = 100 / currentUnits?.contractImages.length;
 
@@ -81,9 +88,37 @@ const UnitDetails = () => {
               {"صيانات"}
             </button>
           </div>
+          <div className="unit-details-notes">
+            {!notes
+              ? currentMaintenance.map((Maintenance: any) => {
+                  return <SingleNote Maintenance={Maintenance} />;
+                })
+              : null}
+          </div>
         </div>
       </div>
     </div>
   );
 };
 export default UnitDetails;
+
+type Props = {
+  Maintenance: any;
+};
+
+const SingleNote: React.FC<Props> = ({ Maintenance }) => {
+  return (
+    <div className="singleNote">
+      <div className="col-12 col-md-5">{Maintenance?.request}</div>
+      <div className="col-12 col-md-1">
+        {Maintenance?.cost ? Maintenance.cost : 0}
+      </div>
+      <div className="col-12 col-md-2">
+        {getDateFormat(Maintenance?.createdAt)}
+      </div>
+      <div className="col-12 col-md-4">
+        <img src={`${apiUrl}/${Maintenance?.image}`} alt="" />
+      </div>
+    </div>
+  );
+};

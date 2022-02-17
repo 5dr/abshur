@@ -29,6 +29,7 @@ export type abshurStateType = {
   units: Unit[];
   currentProperty: Realty | null;
   currentUnits: Unit | null;
+  currentMaintenance: [];
 };
 
 export type Unit = {

@@ -5,7 +5,7 @@ import { getDateFormat } from "../../assets/constants/memento";
 import { Realty } from "../../assets/constants/type";
 import { validationCreatePropertySchema } from "../../assets/constants/validationForm/validationForm";
 import apiService from "../../services/api";
-import { successToast } from "../../services/toast/toast";
+import { errorToast, successToast } from "../../services/toast/toast";
 import YesOrNoModal from "../Modals/yesOrNo/yeaOrNo";
 
 type Props = {
@@ -45,7 +45,7 @@ const CreatePropertyFormik: React.FC<Props> = ({ editData }) => {
       }
     } catch (error: any) {
       console.log(error);
-      console.log(error.data.feedback.en);
+      errorToast(error.data.feedback.en);
       if (
         error.data.feedback.en ===
         "Please make sure that you have entered a valid phone number"

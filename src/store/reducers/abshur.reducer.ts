@@ -7,6 +7,8 @@ import {
   SET_UNITS,
   SET_CURRENT_PROPERTIES,
   SET_CURRENT_UNITS,
+  SET_CURRENT_MAINTENANCE,
+  ADD_MAINTENANCE,
 } from "../actions/actionTypes";
 
 const initialState: abshurStateType = {
@@ -17,6 +19,7 @@ const initialState: abshurStateType = {
   units: [],
   currentProperty: null,
   currentUnits: null,
+  currentMaintenance: [],
 };
 
 export default function abshur(state = initialState, action: any): any {
@@ -35,6 +38,10 @@ export default function abshur(state = initialState, action: any): any {
       return { ...state, currentProperty: action.payload };
     case SET_CURRENT_UNITS:
       return { ...state, currentUnits: action.payload };
+    case SET_CURRENT_MAINTENANCE:
+      return { ...state, currentMaintenance: action.payload };
+    case ADD_MAINTENANCE:
+      return { ...state, currentMaintenance: [...state.currentMaintenance, action.payload ]};
     default:
       return state;
   }

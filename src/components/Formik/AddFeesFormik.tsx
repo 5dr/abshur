@@ -5,6 +5,7 @@ import { useSelector } from "react-redux";
 import { Realty } from "../../assets/constants/type";
 import { validationAddFeesSchema } from "../../assets/constants/validationForm/validationForm";
 import apiService from "../../services/api";
+import { errorToast, successToast } from "../../services/toast/toast";
 import { rootState } from "../../store/reducers";
 
 const AddFeesFormik = () => {
@@ -68,7 +69,10 @@ const AddFeesFormik = () => {
               ...values,
             });
             console.log("data", data);
-          } catch (error: any) {}
+            successToast("تم اضافة");
+          } catch (error: any) {
+            errorToast("حدث خطأ اثناء الاضافة حاول مره اخرة");
+          }
         }}
       >
         {(formik) => (

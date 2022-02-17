@@ -24,6 +24,9 @@ export const validationCreatePropertySchema = Yup.object({
 export const validationAddFeesSchema = Yup.object({
   addedFees: Yup.number().required("Required"),
 });
+export const validationAddMaintenancechema = Yup.object({
+  request: Yup.string().required("Required"),
+});
 
 export const validationAddUserSchema = Yup.object({
   phone: Yup.string().phone("EG", true, "Invalid Number").required("Required"),
