@@ -31,6 +31,7 @@
       display: flex;
       flex-wrap: wrap;
       min-width: 175px;
+      align-content: flex-start;
     }
   }
   .unit-details-notes {
@@ -63,22 +64,8 @@
       border: 1px solid var(--color-main-border);
       margin-bottom: 10px;
       border-radius: 5px;
-      .singleNote {
-        display: flex;
-        flex-wrap: wrap;
-        background-color: #ebf6ff;
-        padding: 2px 8px;
-        border-radius: 5px;
-        margin: 3px 0px;
-        align-items: center;
-        > div {
-          text-align: center;
-        }
-        img {
-          width: 25%;
-          height: auto;
-          border-radius: 15px;
-        }
+      tr {
+      // background-color: #ebf6ff;
       }
     }
   }

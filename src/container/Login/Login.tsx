@@ -15,7 +15,6 @@ const Login: React.FC<Props> = ({ saveToken, auth }) => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    console.log(auth)
     if (auth) {
       navigate(routes.HOME);
     }

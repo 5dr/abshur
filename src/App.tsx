@@ -5,25 +5,21 @@ import Header from "./components/Header/Header";
 import i18n from "./services/i18n";
 import Login from "./container/Login/Login";
 import { ReactComponent as Wave } from "./assets/img/wave.svg";
-import { ReactComponent as Avater } from "./assets/img/avater.svg";
-import img from "./assets/img/img.png";
 import Home from "./container/Home/Home";
 import Property10Day from "./container/Property10Day/Property10Day";
 import PropertyFinished from "./container/PropertyFinished/PropertyFinished";
 import PropertyEmpty from "./container/PropertyEmpty/PropertyEmpty";
-import { useTranslation } from "react-i18next";
-import { Realty } from "./assets/constants/type";
-import PropertyCard from "./components/PropertyCard/PropertyCard";
 import { ToastContainer } from "react-toastify";
 import { toastOptions } from "./services/toast/toast";
 import "react-toastify/dist/ReactToastify.css";
 import useToken from "./hooks/useToken";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import PropertyDetail from "./container/PropertyDetail/PropertyDetail";
 import UnitDetails from "./container/UnitDetail/UnitDetails";
-import { IoMdSend } from "react-icons/io";
 import Requests from "./container/Requests/Requests";
+import apiService from "./services/api";
+
 
 function App() {
   const location = useLocation();
@@ -43,7 +39,8 @@ function App() {
     setToken(key, value);
   };
 
-  const Logout = () => {
+  const Logout = async () => {
+    await apiService.logout({});
     removeToken();
   };
 

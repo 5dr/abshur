@@ -11,6 +11,9 @@ const ContentUnitDetails = () => {
   const currentUnits = useSelector(
     (state: rootState) => state.abshur.currentUnits
   );
+  const currentProperty = useSelector(
+    (state: rootState) => state.abshur.currentProperty
+  );
   return (
     <>
       <SubUnitDetails
@@ -20,8 +23,7 @@ const ContentUnitDetails = () => {
       <div className="sub-details">
         <div className="sub-details-title">{t("unitDetail.unitStatus")}</div>
         <div
-          style={{ backgroundColor: "red" }}
-          className="sub-details-detail-status"
+          className={`sub-details-detail-status ${currentUnits?.unitStatus}`}
         ></div>
       </div>
       <SubUnitDetails
@@ -39,6 +41,18 @@ const ContentUnitDetails = () => {
       <SubUnitDetails
         title={t("unitDetail.rentPrice")}
         value={currentUnits?.rentPrice}
+      />
+      <SubUnitDetails
+        title={t("home.property-name")}
+        value={currentProperty?.name}
+      />
+      <SubUnitDetails
+        title={t("home.property-num")}
+        value={currentProperty?.number}
+      />
+      <SubUnitDetails
+        title={t("create-unit.notes")}
+        value={currentUnits?.notes}
       />
     </>
   );

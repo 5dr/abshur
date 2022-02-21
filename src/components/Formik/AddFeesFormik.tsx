@@ -1,15 +1,18 @@
 import { Formik } from "formik";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Realty } from "../../assets/constants/type";
 import { validationAddFeesSchema } from "../../assets/constants/validationForm/validationForm";
 import apiService from "../../services/api";
 import { errorToast, successToast } from "../../services/toast/toast";
+import { addAddedFees } from "../../store/actions/abshur.actions";
 import { rootState } from "../../store/reducers";
 
 const AddFeesFormik = () => {
   const { t } = useTranslation();
+  const dispatch = useDispatch();
+
   const currentProperty = useSelector(
     (state: rootState) => state.abshur.currentProperty
   );
@@ -30,32 +33,11 @@ const AddFeesFormik = () => {
               commission,
               fees,
               user,
+              addedFees,
               id,
             } = currentProperty;
-            console.log(currentProperty);
-            console.log({
-              name,
-              number,
-              propertyId,
-              propertyDate,
-              address,
-              commission,
-              fees,
-              user,
-            });
             const userPhone = user.phone;
-            console.log({
-              name,
-              number,
-              propertyId,
-              propertyDate,
-              address,
-              commission,
-              fees,
-              userPhone,
-              ...values,
-            });
-
+            const allAddedFees = addedFees + parseInt(values.addedFees);
             const data = await apiService.updateProperty({
               id,
               name,
@@ -66,9 +48,9 @@ const AddFeesFormik = () => {
               commission,
               fees,
               userPhone,
-              ...values,
+              addedFees: allAddedFees,
             });
-            console.log("data", data);
+            dispatch(addAddedFees(allAddedFees));
             successToast("تم اضافة");
           } catch (error: any) {
             errorToast("حدث خطأ اثناء الاضافة حاول مره اخرة");

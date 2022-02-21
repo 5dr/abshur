@@ -112,7 +112,6 @@ const PropertyDetail = () => {
         <div className="property-details col-md-3 col-12">
           <div className="header-unit">
             <div>{currentProperty.name}</div>
-            <div className="header-status"></div>
           </div>
           <div className="property-details-body">
             <div>

@@ -13,4 +13,16 @@
     height: 25px;
     border-radius: 25px;
   }
+  .empty {
+    background-color: var(--color-main);
+  }
+  .not-paid {
+    background-color: red;
+  }
+  .paid {
+    background-color: green;
+  }
+  .ten-days {
+    background-color: yellow;
+  }
 }

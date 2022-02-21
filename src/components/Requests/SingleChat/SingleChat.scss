@@ -6,6 +6,32 @@
   margin: 5px;
   padding: 10px;
   cursor: pointer;
+  justify-content: space-between;
+}
+.biscsDitails {
+  display: flex;
+  align-items: center;
+}
+.avater {
+  height: 35px;
+  width: 35px;
+  margin: 4px;
+}
+.singleChat-ditail {
+  display: flex;
+  flex-direction: column;
+  .subMsg {
+    color: var(--color-grey-dark-2);
+    font-size: 12px;
+  }
+  .notAdmain{
+    color: black;
+    font-weight: bold;
+    font-size: 14px;
+  }
+  .name {
+    font-size: 16px;
+  }
 }
 .activeChat {
   background-color: var(--color-main-border);

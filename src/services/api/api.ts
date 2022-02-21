@@ -13,6 +13,10 @@ class ApiService {
       url: "/login",
       type: "POST",
     },
+    logout: {
+      url: "/logout",
+      type: "POST",
+    },
     createProperty: {
       url: "/property",
       type: "POST",
@@ -27,7 +31,7 @@ class ApiService {
     },
     updateProperty: {
       url: "/property/{id}",
-      type: "PATCH",
+      type: "PUT",
     },
     getUnits: {
       url: "/unit",
@@ -41,6 +45,10 @@ class ApiService {
       url: "/chat",
       type: "GET",
     },
+    getCurrentChat: {
+      url: "/chat/{id}",
+      type: "GET",
+    },
     addMaintenance: {
       url: "/maintenance",
       type: "POST",
@@ -49,17 +57,25 @@ class ApiService {
       url: "/maintenance",
       type: "GET",
     },
+    updateUnit: {
+      url: "/unit/{id}",
+      type: "PUT",
+    },
   };
   async send(serviceName: any, options: any): Promise<any> {
     const service = { ...this.services[serviceName] };
     let afterReplace: string;
     let v: any;
+    let isFormData: boolean = false;
     let hideMessage: false;
     afterReplace = "";
     for (const option of Object.keys(options)) {
       option === "hideMsg"
         ? (hideMessage = options[option])
         : (v = options[option]);
+      if (option === "formData") {
+        isFormData = true;
+      }
       afterReplace = service.url.replace(new RegExp(`{${option}}`, "m"), v);
       if (service.url !== afterReplace) {
         delete options[option];
@@ -85,7 +101,8 @@ class ApiService {
         baseURL: ss.url,
         method: ss.type,
         headers,
-        data: ss.type !== "GET" ? options : {},
+        data:
+          ss.type !== "GET" ? (isFormData ? options.formData : options) : {},
         params: ss.type === "GET" ? { ...options, lang } : { lang },
       })
       .then((data) => {
@@ -96,7 +113,6 @@ class ApiService {
           ![true, false].includes(data.data.exist)
         ) {
           if (!hideMessage) {
-            console.log(data.data);
             successToast(data.data.msg);
           }
         }

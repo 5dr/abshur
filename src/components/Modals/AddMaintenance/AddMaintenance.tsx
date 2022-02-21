@@ -5,13 +5,19 @@ import "react-responsive-modal/styles.css";
 import "./AddMaintenance.scss";
 import { Modal } from "react-responsive-modal";
 import AddMaintenanceFormik from "../../Formik/AddMaintenanceFormik";
+import AddOfficeNote from "../../Formik/AddOfficeNote";
 
 type Props = {
   isOpen: boolean;
   onModalClose: () => void;
+  isMaintenance: boolean;
 };
 
-const AddMaintenance: React.FC<Props> = ({ isOpen, onModalClose }) => {
+const AddMaintenance: React.FC<Props> = ({
+  isOpen,
+  onModalClose,
+  isMaintenance,
+}) => {
   const { t, i18n } = useTranslation();
   return (
     <Modal
@@ -31,11 +37,11 @@ const AddMaintenance: React.FC<Props> = ({ isOpen, onModalClose }) => {
     >
       <div dir={i18n.dir()} className="addMaintenance">
         <div className="header-modal">
-          {"اضافة صيانة"}
+          {isMaintenance ? "اضافة الصيانة" : "اضافة ملحوظة مكتب"}
           <CloseIcon onClick={onModalClose} />
         </div>
         <div className="body ">
-          <AddMaintenanceFormik />
+          {isMaintenance ? <AddMaintenanceFormik /> : <AddOfficeNote />}
         </div>
       </div>
     </Modal>

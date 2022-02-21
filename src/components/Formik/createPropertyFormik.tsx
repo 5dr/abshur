@@ -1,11 +1,18 @@
 import { Formik } from "formik";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
+import { useDispatch } from "react-redux";
+import { useLocation } from "react-router-dom";
 import { getDateFormat } from "../../assets/constants/memento";
-import { Realty } from "../../assets/constants/type";
+import routes from "../../assets/constants/routes";
+import { Realty, Realty_Type } from "../../assets/constants/type";
 import { validationCreatePropertySchema } from "../../assets/constants/validationForm/validationForm";
 import apiService from "../../services/api";
 import { errorToast, successToast } from "../../services/toast/toast";
+import {
+  addProperty,
+  updateProperty,
+} from "../../store/actions/abshur.actions";
 import YesOrNoModal from "../Modals/yesOrNo/yeaOrNo";
 
 type Props = {
@@ -14,6 +21,9 @@ type Props = {
 
 const CreatePropertyFormik: React.FC<Props> = ({ editData }) => {
   const { t } = useTranslation();
+  const dispatch = useDispatch();
+  const location = useLocation();
+
   //const [propertyDate, setPropertyDate] = useState("");
 
   let realty: Realty = {
@@ -38,13 +48,27 @@ const CreatePropertyFormik: React.FC<Props> = ({ editData }) => {
   const addOrEditProperty = async (values: any) => {
     try {
       if (editData) {
-        console.log("edit");
+        const { data } = await apiService.updateProperty({
+          ...values,
+          id: editData.id,
+        });
+        successToast("تم تعديل العقار");
+
+        if (location.pathname === routes.HOME) {
+          dispatch(updateProperty());
+        } else if (location.pathname === routes.PROPERTY_10_DAY) {
+          dispatch(updateProperty(Realty_Type.ten_days));
+        } else if (location.pathname === routes.PROPERTY_FINISHED) {
+          dispatch(updateProperty(Realty_Type.not_paid));
+        } else if (location.pathname === routes.PROPERTY_EMPTY) {
+          dispatch(updateProperty(Realty_Type.empty));
+        }
       } else {
-        await apiService.createProperty(values);
+        const { data } = await apiService.createProperty(values);
+        dispatch(addProperty(data.data));
         successToast("تم اضافة العقار");
       }
     } catch (error: any) {
-      console.log(error);
       errorToast(error.data.feedback.en);
       if (
         error.data.feedback.en ===
@@ -63,13 +87,6 @@ const CreatePropertyFormik: React.FC<Props> = ({ editData }) => {
   ) => {
     const attrName = e.target.id;
     const attrValue = e.target.value;
-    console.log(
-      attrName,
-      attrValue,
-      editData.propertyDate,
-      new Date(attrValue).getTime(),
-      new Date(attrValue).toISOString()
-    );
   };
 
   return (
@@ -89,7 +106,6 @@ const CreatePropertyFormik: React.FC<Props> = ({ editData }) => {
             ...values,
             propertyDate: new Date(values.propertyDate).toISOString(),
           };
-          console.log(values);
           addOrEditProperty(values);
         }}
       >
@@ -180,7 +196,7 @@ const CreatePropertyFormik: React.FC<Props> = ({ editData }) => {
                   <div className="error m-0">{formik.errors.commission}</div>
                 ) : null}
               </div>
-              <div className="col-sm-12 col-10 px-sm-5">
+              <div className="col-sm-11 col-10">
                 <label className="col-5 col-sm-2" htmlFor="address">
                   {t("create-property.address")}
                 </label>

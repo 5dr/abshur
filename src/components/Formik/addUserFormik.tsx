@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next";
 import { User } from "../../assets/constants/type";
 import { validationAddUserSchema } from "../../assets/constants/validationForm/validationForm";
 import apiService from "../../services/api";
-import { errorToast } from "../../services/toast/toast";
+import { errorToast, successToast } from "../../services/toast/toast";
 
 type Props = {
   phone?: string;
@@ -27,12 +27,9 @@ const AddUserFormik: React.FC<Props> = ({ phone, role }) => {
         onSubmit={async (values) => {
           values = { ...values };
           try {
-            alert(JSON.stringify(values, null, 2));
-            const data = await apiService.register(values);
-            console.log("data", data);
+             await apiService.register(values);
+            successToast("تم الاضافة بنجاج");
           } catch (error: any) {
-            console.log(error);
-            console.log(error.data.feedback.en);
             errorToast(error.data.feedback.en);
           }
         }}

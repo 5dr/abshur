@@ -30,13 +30,16 @@ export type abshurStateType = {
   currentProperty: Realty | null;
   currentUnits: Unit | null;
   currentMaintenance: [];
+  currentOfficeNote: [];
+  allChat: [];
+  currentChat: [];
 };
 
 export type Unit = {
   id?: number | 0;
   unitNumber: string | "";
   rentPrice: number | 0;
-  payDate?: number | 0;
+  payDate?: string | "";
   rentalDate?: number | 0;
   electricityNumber: string | "";
   paymentPlan?: string | "";

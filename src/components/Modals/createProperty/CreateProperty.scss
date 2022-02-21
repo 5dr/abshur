@@ -20,7 +20,7 @@
       .form {
         display: flex;
         flex-wrap: wrap;
-        justify-content: center;
+        justify-content: start;
         margin: 20px 0;
         > div {
           margin: 10px 5px;
@@ -35,7 +35,8 @@
             color: var(--color-main);
             display: flex;
           }
-          > input[type]:not([type=file]) ,select {
+          > input[type]:not([type="file"]),
+          select {
             border-radius: 5px;
             padding: 2px;
             border-color: var(--color-main);

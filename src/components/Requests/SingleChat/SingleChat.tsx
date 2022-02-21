@@ -1,24 +1,31 @@
+import { getDiffDate } from "../../../assets/constants/memento";
 import { ReactComponent as Avater } from "../../../assets/img/avater.svg";
 import "./SingleChat.scss";
 
 type Props = {
-  name: string;
+  chat: any;
   active?: boolean;
   ind: number;
-  handlerCurrInd: (ind: number) => void;
+  handlerCurrInd: (ind: number, id: number) => void;
 };
-const SingleChat: React.FC<Props> = ({ handlerCurrInd, ind, name, active }) => {
+const SingleChat: React.FC<Props> = ({ handlerCurrInd, ind, chat, active }) => {
   return (
     <div
       onClick={() => {
-        handlerCurrInd(ind);
+        handlerCurrInd(ind, chat.uid);
       }}
       className={`singleChat ${active ? "activeChat" : ""}`}
     >
-      <div>
-        <Avater />
+      <div className="biscsDitails">
+        <div>
+          <Avater className="avater" />
+        </div>
+        <div className="singleChat-ditail">
+          <div className="name">{chat.name}</div>
+          <div className={`subMsg ${chat.isAdmin?'':'notAdmain'}`}>{chat.content}</div>
+        </div>
       </div>
-      <div>{name}</div>
+      <div className="time-singleChat">{getDiffDate(chat.createdAt)}</div>
     </div>
   );
 };

@@ -5,13 +5,15 @@ import "react-responsive-modal/styles.css";
 import "./yesOrNo.scss";
 import { Modal } from "react-responsive-modal";
 import AddUserModal from "../addUser/AddUser";
+import { successToast } from "../../../services/toast/toast";
 
 type Props = {
   isOpen: boolean;
   onModalClose: () => void;
   message?: string;
   phone?: string;
-  role?:string
+  role?: string;
+  onYes?: () => void;
 };
 
 const YesOrNoModal: React.FC<Props> = ({
@@ -19,9 +21,10 @@ const YesOrNoModal: React.FC<Props> = ({
   onModalClose,
   message,
   phone,
-  role
+  role,
+  onYes,
 }) => {
-  const {i18n } = useTranslation();
+  const { i18n } = useTranslation();
   const [openModalAddUser, setOpenModalAddUser] = useState(false);
   const openCloseModalAddUser = () => {
     setOpenModalAddUser(!openModalAddUser);
@@ -53,8 +56,15 @@ const YesOrNoModal: React.FC<Props> = ({
           <div className="bottuns">
             <button
               onClick={() => {
-                onModalClose();
-                openCloseModalAddUser();
+                if (phone) {
+                  onModalClose();
+                  openCloseModalAddUser();
+                  onModalClose()
+                } else {
+                  if (onYes) onYes();
+                  onModalClose()
+                  successToast("تم الدفع بنجاج");
+                }
               }}
               className="yes"
             >

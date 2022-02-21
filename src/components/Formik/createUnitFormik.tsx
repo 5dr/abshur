@@ -1,12 +1,13 @@
 import { Formik } from "formik";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { getDateFormat } from "../../assets/constants/memento";
 import { Unit } from "../../assets/constants/type";
 import { validationCreateUnitSchema } from "../../assets/constants/validationForm/validationForm";
 import apiService from "../../services/api";
 import { errorToast, successToast } from "../../services/toast/toast";
+import { addUnit, updateUnit } from "../../store/actions/abshur.actions";
 import { rootState } from "../../store/reducers";
 import YesOrNoModal from "../Modals/yesOrNo/yeaOrNo";
 
@@ -20,31 +21,30 @@ const allPaymentPlan = [
   { value: "annual", name: "سنويا" },
 ];
 
-const allUnitStatus = [
-  { value: "empty", name: "فارغة" },
-  { value: "not-paid", name: "لم تدفع" },
-  { value: "paid", name: "تم الدفع" },
-];
+// const allUnitStatus = [
+//   { value: "empty", name: "فارغة" },
+//   { value: "not-paid", name: "لم تدفع" },
+//   { value: "paid", name: "تم الدفع" },
+// ];
 
 const CreateUnitFormik: React.FC<Props> = ({ editData }) => {
   const { t } = useTranslation();
-  const [pay, setPayDate] = useState(0);
+  const dispatch = useDispatch();
 
   const currentProperty = useSelector(
     (state: rootState) => state.abshur.currentProperty
   );
 
   let unit: Unit = {
-    tenantPhone: "",
+    tenantPhone: editData ? editData.tenant.phone : "",
     images: {},
     unitNumber: editData ? editData.unitNumber : "",
     propertyId: currentProperty.id,
-    payDate: editData ? getDateFormat(editData.payDate) : 0,
+    payDate: editData ? getDateFormat(editData.payDate) : "",
     rentalDate: new Date().getTime(),
     rentPrice: editData ? editData.rentPrice : 0,
     electricityNumber: editData ? editData.electricityNumber : "",
     paymentPlan: editData ? editData.paymentPlan : "",
-    unitStatus: editData ? editData.unitStatus : "",
     notes: editData ? editData.notes : "",
   };
 
@@ -55,22 +55,15 @@ const CreateUnitFormik: React.FC<Props> = ({ editData }) => {
     setOpenModalYesOrNo(!openModalYesOrNo);
   };
 
-  const handlerInput = (
-    e:
-      | React.ChangeEvent<HTMLInputElement>
-      | React.ChangeEvent<HTMLSelectElement>
-  ) => {
-    const attrName = e.target.id;
-    const attrValue = e.target.value;
-    setPayDate(new Date(attrValue).getTime());
-
-    console.log(
-      attrName,
-      new Date(attrValue).getTime(),
-      new Date(attrValue).toISOString(),
-      unit.payDate
-    );
-  };
+  // const handlerInput = (
+  //   e:
+  //     | React.ChangeEvent<HTMLInputElement>
+  //     | React.ChangeEvent<HTMLSelectElement>
+  // ) => {
+  //   const attrName = e.target.id;
+  //   const attrValue = e.target.value;
+  //   setPayDate(new Date(attrValue).getTime());
+  // };
 
   return (
     <>
@@ -86,11 +79,15 @@ const CreateUnitFormik: React.FC<Props> = ({ editData }) => {
         validationSchema={validationCreateUnitSchema}
         onSubmit={async (values) => {
           try {
-            values = { ...values, payDate: pay };
-            console.log(values);
+            values = {
+              ...values,
+              unitStatus: "empty",
+              payDate: new Date(
+                values.payDate ? values.payDate : ""
+              ).toISOString(),
+            };
             const formData = new FormData();
             Object.entries(values).forEach((element) => {
-              console.log(element[0], element[1]);
               if (element[0] === "images") {
                 for (let i = 0; i < element[1].length; i++) {
                   formData.append("images", element[1][i]);
@@ -99,10 +96,19 @@ const CreateUnitFormik: React.FC<Props> = ({ editData }) => {
                 formData.append(element[0], element[1]);
               }
             });
-            await apiService.createUnit(formData);
-            successToast("تم اضافة الوحده");
+            if (editData) {
+              const { data } = await apiService.updateUnit({
+                formData,
+                id: editData.id,
+              });
+              dispatch(updateUnit(currentProperty.id));
+              successToast("تم نعديل الوحده");
+            } else {
+              const { data } = await apiService.createUnit(formData);
+              dispatch(addUnit(data.data));
+              successToast("تم اضافة الوحده");
+            }
           } catch (error: any) {
-            console.log(error);
             errorToast(error.data.feedback.en);
             if (
               error.data.feedback.en ===
@@ -185,7 +191,7 @@ const CreateUnitFormik: React.FC<Props> = ({ editData }) => {
                   className="col-12"
                   id="payDate"
                   type="date"
-                  onChange={handlerInput}
+                  {...formik.getFieldProps("payDate")}
                 />
                 {formik.touched.payDate && formik.errors.payDate ? (
                   <div className="error m-0">{formik.errors.payDate}</div>
@@ -213,30 +219,6 @@ const CreateUnitFormik: React.FC<Props> = ({ editData }) => {
                 </select>
                 {formik.touched.paymentPlan && formik.errors.paymentPlan ? (
                   <div className="error m-0">{formik.errors.paymentPlan}</div>
-                ) : null}
-              </div>
-              <div className="col-sm-5 col-10">
-                <label className="col-8" htmlFor="unitStatus">
-                  {t("create-unit.unit-status")}
-                </label>
-                <select
-                  className="col-12"
-                  id="unitStatus"
-                  {...formik.getFieldProps("unitStatus")}
-                >
-                  <option disabled value="">
-                    {"حاله الوحده"}
-                  </option>
-                  {allUnitStatus.map((status) => {
-                    return (
-                      <option key={status.value} value={status.value}>
-                        {status.name}
-                      </option>
-                    );
-                  })}
-                </select>
-                {formik.touched.unitStatus && formik.errors.unitStatus ? (
-                  <div className="error m-0">{formik.errors.unitStatus}</div>
                 ) : null}
               </div>
               <div className="col-sm-5 col-10">

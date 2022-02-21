@@ -9,6 +9,14 @@ import {
   SET_PROPERTIES_TEN_DAYS,
   SET_CURRENT_MAINTENANCE,
   ADD_MAINTENANCE,
+  SET_CURRENT_OFFICE_NOTE,
+  ADD_OFFICE_NOTE,
+  ADD_PROPERTIES,
+  ADD_UNITS,
+  ADD_ADDEDFEES,
+  SET_ALL_CHAT,
+  SET_CURRENT_CHAT,
+  ADD_MSG,
 } from "./actionTypes";
 import { Dispatch } from "./types";
 import apiService from "../../services/api";
@@ -23,20 +31,23 @@ export const setallProperties =
       sort: "",
       userId: "",
     });
-    console.log("data", data.data);
     if (key === Realty_Type.empty) {
       dispatch({ type: SET_PROPERTIES_EMPTY, payload: data.data });
-      console.log(Realty_Type.empty);
     } else if (key === Realty_Type.not_paid) {
-      console.log(Realty_Type.not_paid);
       dispatch({ type: SET_PROPERTIES_FINISHED, payload: data.data });
     } else if (key === Realty_Type.ten_days) {
-      console.log(key, Realty_Type.ten_days);
       dispatch({ type: SET_PROPERTIES_TEN_DAYS, payload: data.data });
     } else {
-      console.log(Realty_Type.empty);
       dispatch({ type: SET_PROPERTIES, payload: data.data });
     }
+  };
+export const addProperty =
+  (property: any) => async (dispatch: Dispatch, getState: any) => {
+    dispatch({ type: ADD_PROPERTIES, payload: property });
+  };
+export const updateProperty =
+  (key?: string) => async (dispatch: any, getState: any) => {
+    key ? dispatch(setallProperties(key)) : dispatch(setallProperties());
   };
 
 export const setAllUnit =
@@ -49,12 +60,17 @@ export const setAllUnit =
       tenantId: "",
       propertyId: propertyId ? propertyId : "",
     });
-    console.log("data", data.data);
     dispatch({ type: SET_UNITS, payload: data.data });
   };
+export const addUnit =
+  (unit: any) => async (dispatch: Dispatch, getState: any) => {
+    dispatch({ type: ADD_UNITS, payload: unit });
+  };
+export const updateUnit = (id: any) => async (dispatch: any, getState: any) => {
+  dispatch(setAllUnit(id));
+};
 const setCurrentMaintenance =
   (unitId: number) => async (dispatch: Dispatch, getState: any) => {
-    console.log("setCurrentMaintenance", unitId);
     const { data } = await apiService.getMaintenance({
       limit: "",
       page: "",
@@ -62,14 +78,32 @@ const setCurrentMaintenance =
       sort: "",
       unitId: unitId,
     });
-    console.log("data", data.data);
     dispatch({ type: SET_CURRENT_MAINTENANCE, payload: data.data });
+  };
+export const addAddedFees =
+  (addedFees: number) => async (dispatch: Dispatch, getState: any) => {
+    dispatch({ type: ADD_ADDEDFEES, payload: addedFees });
   };
 
 export const addMaintenance =
   (maintenance: any) => async (dispatch: Dispatch, getState: any) => {
-    console.log("setCurrentUnit", maintenance);
     dispatch({ type: ADD_MAINTENANCE, payload: maintenance });
+  };
+const setCurrentOfficeNote =
+  (unitId: number) => async (dispatch: Dispatch, getState: any) => {
+    const { data } = await apiService.getMaintenance({
+      limit: "",
+      page: "",
+      key: "feedback",
+      sort: "",
+      unitId: unitId,
+    });
+    dispatch({ type: SET_CURRENT_OFFICE_NOTE, payload: data.data });
+  };
+
+export const addOfficeNote =
+  (maintenance: any) => async (dispatch: Dispatch, getState: any) => {
+    dispatch({ type: ADD_OFFICE_NOTE, payload: maintenance });
   };
 
 export const setCurrentProperty =
@@ -79,7 +113,29 @@ export const setCurrentProperty =
 
 export const setCurrentUnit =
   (unit: any) => async (dispatch: any, getState: any) => {
-    console.log("setCurrentUnit", unit);
     dispatch(setCurrentMaintenance(unit.id));
+    dispatch(setCurrentOfficeNote(unit.id));
     dispatch({ type: SET_CURRENT_UNITS, payload: unit });
+  };
+export const setallChat = () => async (dispatch: Dispatch, getState: any) => {
+  const { data } = await apiService.getChat({});
+  dispatch({ type: SET_ALL_CHAT, payload: data.data.reverse() });
+};
+
+export const setCurrentChat =
+  (id: number, ty: string) => async (dispatch: Dispatch, getState: any) => {
+    const { data } = await apiService.getCurrentChat({ id, type: ty });
+    dispatch({ type: SET_CURRENT_CHAT, payload: data.data });
+  };
+
+export const sendChatMsg =
+  (id: number, msg: string, ty: string) =>
+  async (dispatch: any, getState: any) => {
+    const { data } = await apiService.sendMsg({
+      uid: id,
+      content: msg,
+      type: ty,
+    });
+   dispatch({ type: ADD_MSG, payload: data.data });
+   dispatch(setallChat())
   };

@@ -10,6 +10,9 @@ import {
   getChat,
   addMaintenance,
   getMaintenance,
+  updateUnit,
+  getCurrentChat,
+  logout,
 } from "./realty";
 
 export default {
@@ -24,4 +27,7 @@ export default {
   getChat,
   addMaintenance,
   getMaintenance,
+  updateUnit,
+  getCurrentChat,
+  logout,
 };

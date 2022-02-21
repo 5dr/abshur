@@ -7,7 +7,9 @@ export const createProperty = async (payload: any) => {
 export const login = async (payload: any) => {
   return await api.send("login", payload);
 };
-
+export const logout = async (payload: any) => {
+  return await api.send("logout", payload);
+};
 export const register = async (payload: any) => {
   return await api.send("register", payload);
 };
@@ -29,11 +31,17 @@ export const sendMsg = async (payload: any) => {
 export const getChat = async (payload: any) => {
   return await api.send("getChat", payload);
 };
+export const getCurrentChat = async (payload: any) => {
+  return await api.send("getCurrentChat", payload);
+};
 export const addMaintenance = async (payload: any) => {
   return await api.send("addMaintenance", payload);
 };
 export const getMaintenance = async (payload: any) => {
   return await api.send("getMaintenance", payload);
+};
+export const updateUnit = async (payload: any) => {
+  return await api.send("updateUnit", payload);
 };
 
 export const searchDrByMobile = async (payload: any): Promise<any> => {

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useLocation, useNavigate } from "react-router-dom";
 import routes from "../../../assets/constants/routes";
@@ -14,6 +14,17 @@ const Menu = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const size = useWindowSize();
+  const [isSelected, setSlected] = useState(false);
+
+  useEffect(() => {
+    let flag = false;
+    MenuItems.forEach((m) => {
+      console.log(m.active);
+      if (m.active) flag = m.active;
+    });
+    console.log(flag);
+    setSlected(flag);
+  }, [location]);
   const MenuItems: MenuItem[] = [
     {
       active: location.pathname === routes.HOME,
@@ -78,10 +89,15 @@ const Menu = () => {
         </ul>
       ) : (
         <>
-          <select className="select" onChange={handleChange}>
+          <select className="select" onChange={handleChange} value="">
+            {!isSelected && (
+              <option disabled value="" selected>
+                ...
+              </option>
+            )}
             {MenuItems.map(({ active, name, route }, index) => {
               return (
-                <option value={route} key={index}>
+                <option value={route} key={index} selected={active}>
                   {name}
                 </option>
               );

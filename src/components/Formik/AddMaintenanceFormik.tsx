@@ -30,7 +30,6 @@ const AddMaintenanceFormik = () => {
           try {
             const formData = new FormData();
             Object.entries(values).forEach((element) => {
-              console.log(element[0], element[1]);
               if (element[0] === "images") {
                 for (let i = 0; i < element[1].length; i++) {
                   formData.append("images", element[1][i]);

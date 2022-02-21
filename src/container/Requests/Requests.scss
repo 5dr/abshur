@@ -11,6 +11,26 @@
     padding: 1px 1px 1px 10px;
     border-left: 1px solid var(--color-main-border);
     overflow: auto;
+    .unit-details-notes-bottuns {
+      display: flex;
+      margin: 30px 0px 30px;
+      > .select {
+        background-color: var(--color-main);
+        color: white;
+        border-radius: 5px;
+        padding: 6px 15px;
+        border: 0;
+        font-weight: 500;
+      }
+      > .unselect {
+        background-color: #ebf6ff;
+        color: var(--color-main);
+        border-radius: 5px;
+        padding: 6px 15px;
+        border: 0;
+        font-weight: 500;
+      }
+    }
   }
   .chat-details {
     display: flex;

@@ -25,7 +25,7 @@ export const validationAddFeesSchema = Yup.object({
   addedFees: Yup.number().required("Required"),
 });
 export const validationAddMaintenancechema = Yup.object({
-  request: Yup.string().required("Required"),
+  request: Yup.string().max(70).required("Required"),
 });
 
 export const validationAddUserSchema = Yup.object({
@@ -37,11 +37,9 @@ export const validationAddUserSchema = Yup.object({
 });
 
 export const validationCreateUnitSchema = Yup.object({
-  tenantPhone: Yup.string().phone("EG", true, "Invalid Number").required(),
   unitNumber: Yup.string().required("Required"),
   rentPrice: Yup.number().required("Required"),
   electricityNumber: Yup.string().required("Required"),
   paymentPlan: Yup.string().required("Required"),
-  unitStatus: Yup.string().required("Required"),
   notes: Yup.string().required("Required"),
 });
