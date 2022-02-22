@@ -38,7 +38,7 @@ export type abshurStateType = {
 export type Unit = {
   id?: number | 0;
   unitNumber: string | "";
-  rentPrice: number | 0;
+  rentPrice: string | "";
   payDate?: string | "";
   rentalDate?: number | 0;
   electricityNumber: string | "";

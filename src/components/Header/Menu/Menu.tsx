@@ -15,16 +15,21 @@ const Menu = () => {
   const navigate = useNavigate();
   const size = useWindowSize();
   const [isSelected, setSlected] = useState(false);
+  const [currOption, setCurrOption] = useState(routes.HOME);
 
   useEffect(() => {
     let flag = false;
     MenuItems.forEach((m) => {
-      console.log(m.active);
       if (m.active) flag = m.active;
     });
-    console.log(flag);
     setSlected(flag);
   }, [location]);
+  useEffect(() => {
+    if (!isSelected) {
+      setCurrOption("other");
+    }
+  }, [isSelected]);
+
   const MenuItems: MenuItem[] = [
     {
       active: location.pathname === routes.HOME,
@@ -61,6 +66,7 @@ const Menu = () => {
 
   const handleChange = (event: any) => {
     navigate(event.target.value);
+    setCurrOption(event.target.value);
   };
   return (
     <div className="menu">
@@ -89,15 +95,15 @@ const Menu = () => {
         </ul>
       ) : (
         <>
-          <select className="select" onChange={handleChange} value="">
+          <select className="select" onChange={handleChange} value={currOption}>
             {!isSelected && (
-              <option disabled value="" selected>
+              <option disabled value="other">
                 ...
               </option>
             )}
             {MenuItems.map(({ active, name, route }, index) => {
               return (
-                <option value={route} key={index} selected={active}>
+                <option value={route} key={index}>
                   {name}
                 </option>
               );

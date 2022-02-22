@@ -117,8 +117,8 @@ export const setCurrentUnit =
     dispatch(setCurrentOfficeNote(unit.id));
     dispatch({ type: SET_CURRENT_UNITS, payload: unit });
   };
-export const setallChat = () => async (dispatch: Dispatch, getState: any) => {
-  const { data } = await apiService.getChat({});
+export const setallChat = (ty: string) => async (dispatch: Dispatch, getState: any) => {
+  const { data } = await apiService.getChat({ type: ty});
   dispatch({ type: SET_ALL_CHAT, payload: data.data.reverse() });
 };
 
@@ -137,5 +137,5 @@ export const sendChatMsg =
       type: ty,
     });
    dispatch({ type: ADD_MSG, payload: data.data });
-   dispatch(setallChat())
+   dispatch(setallChat(ty))
   };

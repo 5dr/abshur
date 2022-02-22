@@ -33,9 +33,9 @@ const Requests = () => {
   };
 
   useEffect(() => {
-    dispatch(setallChat());
-  }, []);
-  
+    dispatch(setallChat(currType));
+  }, [currType]);
+
   useEffect(() => {
     if (allChat) {
       setCurrInd(0);
@@ -65,20 +65,20 @@ const Requests = () => {
           <button
             onClick={() => {
               toggle(true);
-              setCurrType("feedback");
+              setCurrType("maintenance");
             }}
             className={`${maintenance ? "select" : "unselect"} col-6`}
           >
-            {"شكاوي"}
+            {"صيانات"}
           </button>
           <button
             onClick={() => {
               toggle(false);
-              setCurrType("maintenance");
+              setCurrType("feedback");
             }}
             className={`${!maintenance ? "select" : "unselect"} col-6`}
           >
-            {"صيانات"}
+            {"شكاوي"}
           </button>
         </div>
         {allChat.map((chat: any, ind: number) => {

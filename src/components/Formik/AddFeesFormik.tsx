@@ -1,8 +1,6 @@
 import { Formik } from "formik";
-import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
-import { Realty } from "../../assets/constants/type";
 import { validationAddFeesSchema } from "../../assets/constants/validationForm/validationForm";
 import apiService from "../../services/api";
 import { errorToast, successToast } from "../../services/toast/toast";
@@ -38,7 +36,7 @@ const AddFeesFormik = () => {
             } = currentProperty;
             const userPhone = user.phone;
             const allAddedFees = addedFees + parseInt(values.addedFees);
-            const data = await apiService.updateProperty({
+           await apiService.updateProperty({
               id,
               name,
               number,

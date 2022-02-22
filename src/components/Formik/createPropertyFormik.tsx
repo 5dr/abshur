@@ -48,7 +48,7 @@ const CreatePropertyFormik: React.FC<Props> = ({ editData }) => {
   const addOrEditProperty = async (values: any) => {
     try {
       if (editData) {
-        const { data } = await apiService.updateProperty({
+         await apiService.updateProperty({
           ...values,
           id: editData.id,
         });
@@ -80,14 +80,14 @@ const CreatePropertyFormik: React.FC<Props> = ({ editData }) => {
     }
   };
 
-  const handlerInput = (
-    e:
-      | React.ChangeEvent<HTMLInputElement>
-      | React.ChangeEvent<HTMLSelectElement>
-  ) => {
-    const attrName = e.target.id;
-    const attrValue = e.target.value;
-  };
+  // const handlerInput = (
+  //   e:
+  //     | React.ChangeEvent<HTMLInputElement>
+  //     | React.ChangeEvent<HTMLSelectElement>
+  // ) => {
+  //   const attrName = e.target.id;
+  //   const attrValue = e.target.value;
+  // };
 
   return (
     <>
@@ -189,7 +189,7 @@ const CreatePropertyFormik: React.FC<Props> = ({ editData }) => {
                 <input
                   className="col-12"
                   id="commission"
-                  type="text"
+                  type="number"
                   {...formik.getFieldProps("commission")}
                 />
                 {formik.touched.commission && formik.errors.commission ? (

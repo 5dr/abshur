@@ -42,7 +42,7 @@ const CreateUnitFormik: React.FC<Props> = ({ editData }) => {
     propertyId: currentProperty.id,
     payDate: editData ? getDateFormat(editData.payDate) : "",
     rentalDate: new Date().getTime(),
-    rentPrice: editData ? editData.rentPrice : 0,
+    rentPrice: editData ? editData.rentPrice : "",
     electricityNumber: editData ? editData.electricityNumber : "",
     paymentPlan: editData ? editData.paymentPlan : "",
     notes: editData ? editData.notes : "",
@@ -97,7 +97,7 @@ const CreateUnitFormik: React.FC<Props> = ({ editData }) => {
               }
             });
             if (editData) {
-              const { data } = await apiService.updateUnit({
+               await apiService.updateUnit({
                 formData,
                 id: editData.id,
               });

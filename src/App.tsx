@@ -14,7 +14,6 @@ import { toastOptions } from "./services/toast/toast";
 import "react-toastify/dist/ReactToastify.css";
 import useToken from "./hooks/useToken";
 import { useEffect } from "react";
-import { useDispatch } from "react-redux";
 import PropertyDetail from "./container/PropertyDetail/PropertyDetail";
 import UnitDetails from "./container/UnitDetail/UnitDetails";
 import Requests from "./container/Requests/Requests";
@@ -25,7 +24,6 @@ function App() {
   const location = useLocation();
   const [token, setToken, removeToken] = useToken();
   const navigate = useNavigate();
-  const dispatch = useDispatch();
 
   useEffect(() => {
     if (!token) {
