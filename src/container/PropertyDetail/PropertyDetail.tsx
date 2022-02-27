@@ -29,76 +29,11 @@ const PropertyDetail = () => {
   const currentProperty = useSelector(
     (state: rootState) => state.abshur.currentProperty
   );
+  const loading = useSelector((state: rootState) => state.abshur.loading);
   const units = useSelector((state: rootState) => state.abshur.units);
-  useEffect(() => {
-    if (currentProperty) dispatch(setAllUnit(currentProperty.id));
-  }, [currentProperty]);
-  const realty: Realty[] = [
-    {
-      number: "10",
-      address: "الباجور",
-      propertyDate: "1/1/2022",
-      user: { name: "محمد وائل", phone: "0" },
-      numberOfUnits: 20,
-      name: "حجازى",
-    },
-    {
-      number: "10",
-      address: "الباجور",
-      propertyDate: "1/1/2022",
-      user: { name: "محمد وائل", phone: "0" },
-      numberOfUnits: 20,
-      name: "حجازى",
-    },
-    {
-      number: "10",
-      address: "الباجور",
-      propertyDate: "1/1/2022",
-      user: { name: "محمد وائل", phone: "0" },
-      numberOfUnits: 20,
-      name: "حجازى",
-    },
-    {
-      number: "10",
-      address: "الباجور",
-      propertyDate: "1/1/2022",
-      user: { name: "محمد وائل", phone: "0" },
-      numberOfUnits: 20,
-      name: "حجازى",
-    },
-    {
-      number: "10",
-      address: "الباجور",
-      propertyDate: "1/1/2022",
-      user: { name: "محمد وائل", phone: "0" },
-      numberOfUnits: 20,
-      name: "حجازى",
-    },
-    {
-      number: "10",
-      address: "الباجور",
-      propertyDate: "1/1/2022",
-      user: { name: "محمد وائل", phone: "0" },
-      numberOfUnits: 20,
-      name: "حجازى",
-    },
-    {
-      number: "10",
-      address: "الباجور",
-      propertyDate: "1/1/2022",
-      user: { name: "محمد وائل", phone: "0" },
-      numberOfUnits: 20,
-      name: "حجازى",
-    },
-    {
-      number: "10",
-      address: "الباجور",
-      propertyDate: "1/1/2022",
-      user: { name: "محمد وائل", phone: "0" },
-      numberOfUnits: 20,
-      name: "حجازى",
-    },
-  ];
+  // useEffect(() => {
+  //   if (currentProperty) dispatch(setAllUnit(currentProperty.id));
+  // }, [currentProperty]);
 
   return (
     <div className="unit-container">
@@ -141,7 +76,7 @@ const PropertyDetail = () => {
               <span> {currentProperty.user?.phone}</span>
             </div>
             <div>
-              {t("create-property.fees")} :<span> {currentProperty.fees}</span>
+              {t("create-property.fees")} :<span> {currentProperty.totalCost}</span>
             </div>
             <div>
               {t("create-property.added-fees")} :
@@ -167,9 +102,21 @@ const PropertyDetail = () => {
         </div>
       )}
       <div className="units col-md-9 col-12">
-        {units.map((r: Unit) => {
-          return <UnitCard key={r.id} Unit={r} />;
-        })}
+        {!loading ? (
+          units && units.length > 0 ? (
+            units.map((r: any) => {
+              return <UnitCard key={r.id} Unit={r} />;
+            })
+          ) : (
+            <div
+              style={{ height: "46px", background: "white", fontSize: "30px" }}
+            >
+              {"لا يوجد وحدات"}
+            </div>
+          )
+        ) : (
+          <div className="bigLoader"></div>
+        )}
       </div>
     </div>
   );

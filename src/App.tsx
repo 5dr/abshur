@@ -18,18 +18,23 @@ import PropertyDetail from "./container/PropertyDetail/PropertyDetail";
 import UnitDetails from "./container/UnitDetail/UnitDetails";
 import Requests from "./container/Requests/Requests";
 import apiService from "./services/api";
-
+import { useDispatch } from "react-redux";
+import { getStoredData } from "./services/storage/storage";
+import { login } from "./store/actions/abshur.actions";
 
 function App() {
   const location = useLocation();
   const [token, setToken, removeToken] = useToken();
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   useEffect(() => {
     if (!token) {
       navigate(routes.LOGIN);
     } else {
       navigate(routes.HOME);
+      // getStoredData("userId");
+      // dispatch(login(getStoredData("userId")));
     }
   }, [token]);
 
@@ -38,8 +43,8 @@ function App() {
   };
 
   const Logout = async () => {
-    await apiService.logout({});
     removeToken();
+    await apiService.logout({});
   };
 
   return (

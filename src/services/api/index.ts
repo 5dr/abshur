@@ -13,6 +13,7 @@ import {
   updateUnit,
   getCurrentChat,
   logout,
+  updateUser,
 } from "./realty";
 
 export default {
@@ -30,4 +31,5 @@ export default {
   updateUnit,
   getCurrentChat,
   logout,
+  updateUser,
 };

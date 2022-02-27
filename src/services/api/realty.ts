@@ -37,6 +37,9 @@ export const getCurrentChat = async (payload: any) => {
 export const addMaintenance = async (payload: any) => {
   return await api.send("addMaintenance", payload);
 };
+export const updateUser = async (payload: any) => {
+  return await api.send("updateUser", payload);
+};
 export const getMaintenance = async (payload: any) => {
   return await api.send("getMaintenance", payload);
 };

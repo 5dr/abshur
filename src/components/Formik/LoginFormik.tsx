@@ -1,7 +1,11 @@
 import { Formik } from "formik";
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
+import { useDispatch } from "react-redux";
 import { validationLoginSchema } from "../../assets/constants/validationForm/validationForm";
 import apiService from "../../services/api";
+import { storeData } from "../../services/storage/storage";
+import { login } from "../../store/actions/abshur.actions";
 
 type Props = {
   saveToken: (key: string, value: string) => void;
@@ -9,14 +13,24 @@ type Props = {
 
 const CustomFormik: React.FC<Props> = ({ saveToken }) => {
   const { t } = useTranslation();
+  const [loading, setLoading] = useState(false);
+  const dispatch = useDispatch();
 
   return (
     <Formik
       initialValues={{ phone: "", password: "" }}
       validationSchema={validationLoginSchema}
       onSubmit={async (values) => {
-        const { data } = await apiService.login(values);
-        if (data) saveToken("authenticationToken", data.data.accessToken);
+        try {
+          setLoading(true);
+          const { data } = await apiService.login(values);
+         // storeData("userId", data.data.id);
+          dispatch(login(data.data));
+          setLoading(false);
+          if (data) saveToken("authenticationToken", data.data.accessToken);
+        } catch (e) {
+          setLoading(false);
+        }
       }}
     >
       {(formik) => (
@@ -46,7 +60,17 @@ const CustomFormik: React.FC<Props> = ({ saveToken }) => {
             </div>
           </div>
           <div className="submit">
-            <button type="submit">{t("login.button-login")}</button>
+            <button
+              type="submit"
+              disabled={loading}
+              className="create-btn mt-5"
+            >
+              {loading ? (
+                <div className="loader"></div>
+              ) : (
+                t("login.button-login")
+              )}
+            </button>
           </div>
         </form>
       )}

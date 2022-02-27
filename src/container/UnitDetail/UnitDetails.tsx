@@ -7,6 +7,7 @@ import AddMaintenance from "../../components/Modals/AddMaintenance/AddMaintenanc
 import ContentUnitDetails from "../../components/UnitDetail/ContentUnitDetails/ContentUnitDetails";
 import { useTranslation } from "react-i18next";
 import { getDateFormat, getMonth } from "../../assets/constants/memento";
+import imgPdf from "../../assets/img/imgPdf.png";
 import { opewNewTap } from "../../services/openNewTap";
 import YesOrNoModal from "../../components/Modals/yesOrNo/yeaOrNo";
 import apiService from "../../services/api";
@@ -84,7 +85,7 @@ const UnitDetails = () => {
       />
       <div className="unit-details">
         <div className="unit-details-title">
-          <div>{"تفاصيل الوحدة"}</div>
+          <div style={{ fontWeight: "500" }}>{"تفاصيل الوحدة"}</div>
           <div>
             <button
               onClick={() => {
@@ -116,21 +117,40 @@ const UnitDetails = () => {
         </div>
         <div className="unit-details-content">
           <div className="unit-details-content-img col-11 col-lg-5">
-            <div>{"صورة العقد"}</div>
+            <div style={{ fontWeight: "500" }}>{"صورة العقد"}</div>
             <div className="unit-details-content-imgs">
-              {currentUnits?.contractImages.map((img: string) => (
-                <img
-                  key={img}
-                  src={`${apiUrl}/${img}`}
-                  alt=""
-                  style={{
-                    width: `${widthImgs}%`,
-                  }}
-                  onClick={() => {
-                    opewNewTap(`${apiUrl}/${img}`);
-                  }}
-                />
-              ))}
+              {currentUnits?.contractImages.map((img: string) => {
+                var arr = img.split(".");
+                if (arr[arr.length - 1] === "pdf") {
+                  return (
+                    <img
+                      key={img}
+                      src={imgPdf}
+                      alt=""
+                      style={{
+                        width: `${widthImgs}%`,
+                      }}
+                      onClick={() => {
+                        opewNewTap(`${apiUrl}/${img}`);
+                      }}
+                    />
+                  );
+                } else {
+                  return (
+                    <img
+                      key={img}
+                      src={`${apiUrl}/${img}`}
+                      alt=""
+                      style={{
+                        width: `${widthImgs}%`,
+                      }}
+                      onClick={() => {
+                        opewNewTap(`${apiUrl}/${img}`);
+                      }}
+                    />
+                  );
+                }
+              })}
             </div>
           </div>
           <div className="unit-details-content-details col-11 col-lg-5">
@@ -169,6 +189,7 @@ const UnitDetails = () => {
                     </>
                   ) : (
                     <>
+                      <Th>{t("unitDetail.admainName")}</Th>
                       <Th>{t("unitDetail.officeNote")}</Th>
                       <Th>{t("unitDetail.date")}</Th>
                     </>
@@ -209,6 +230,7 @@ const UnitDetails = () => {
                   : currentOfficeNote.map((officeNote: any) => {
                       return (
                         <Tr key={officeNote?.id}>
+                          <Td>{officeNote?.response}</Td>
                           <Td>{officeNote?.request}</Td>
                           <Td>{getDateFormat(officeNote?.createdAt)}</Td>
                         </Tr>

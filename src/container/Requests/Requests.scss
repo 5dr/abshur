@@ -44,6 +44,7 @@
       flex-direction: column;
       height: 77vh;
       margin: 0px 5px;
+      overflow: auto;
     }
     @media (max-width: 768px) {
       .chatBody {

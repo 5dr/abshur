@@ -32,7 +32,9 @@ export type abshurStateType = {
   currentMaintenance: [];
   currentOfficeNote: [];
   allChat: [];
+  user: any;
   currentChat: [];
+  loading: boolean;
 };
 
 export type Unit = {

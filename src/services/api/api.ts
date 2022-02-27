@@ -61,6 +61,10 @@ class ApiService {
       url: "/unit/{id}",
       type: "PUT",
     },
+    updateUser:{
+      url: "/users/{id}",
+      type: "PUT",
+    },
   };
   async send(serviceName: any, options: any): Promise<any> {
     const service = { ...this.services[serviceName] };

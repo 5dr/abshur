@@ -15,3 +15,5 @@ export const ADD_ADDEDFEES = "ADD_ADDEDFEES";
 export const SET_ALL_CHAT = "SET_ALL_CHAT";
 export const SET_CURRENT_CHAT = "SET_CURRENT_CHAT";
 export const ADD_MSG = "ADD_MSG";
+export const SET_TOGGLE = "SET_TOGGLE";
+export const SET_USER = "SET_USER";

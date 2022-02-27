@@ -19,7 +19,9 @@
       font-weight: bold;
       > span {
         font-size: var(--font-size-1);
-        font-weight: normal;
+        color: var(--color-main-border);
+        opacity: 0.8;
+        font-weight: 500;
       }
     }
   }

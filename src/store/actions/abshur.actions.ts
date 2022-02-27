@@ -17,6 +17,8 @@ import {
   SET_ALL_CHAT,
   SET_CURRENT_CHAT,
   ADD_MSG,
+  SET_TOGGLE,
+  SET_USER,
 } from "./actionTypes";
 import { Dispatch } from "./types";
 import apiService from "../../services/api";
@@ -51,16 +53,22 @@ export const updateProperty =
   };
 
 export const setAllUnit =
-  (propertyId?: number) => async (dispatch: Dispatch, getState: any) => {
+  (propertyId?: number, status?: string) =>
+  async (dispatch: Dispatch, getState: any) => {
     const { data } = await apiService.getUnits({
       limit: "",
       page: "",
       key: "",
       sort: "",
       tenantId: "",
+      status: status ? status : "",
       propertyId: propertyId ? propertyId : "",
     });
     dispatch({ type: SET_UNITS, payload: data.data });
+  };
+export const login =
+  (user: any) => async (dispatch: Dispatch, getState: any) => {
+    dispatch({ type: SET_USER, payload: user });
   };
 export const addUnit =
   (unit: any) => async (dispatch: Dispatch, getState: any) => {
@@ -107,8 +115,11 @@ export const addOfficeNote =
   };
 
 export const setCurrentProperty =
-  (property: any) => async (dispatch: Dispatch, getState: any) => {
+  (property: any, status?: string) => async (dispatch: any, getState: any) => {
     dispatch({ type: SET_CURRENT_PROPERTIES, payload: property });
+    status
+      ? dispatch(setAllUnit(property.id, status))
+      : dispatch(setAllUnit(property.id));
   };
 
 export const setCurrentUnit =
@@ -117,10 +128,15 @@ export const setCurrentUnit =
     dispatch(setCurrentOfficeNote(unit.id));
     dispatch({ type: SET_CURRENT_UNITS, payload: unit });
   };
-export const setallChat = (ty: string) => async (dispatch: Dispatch, getState: any) => {
-  const { data } = await apiService.getChat({ type: ty});
-  dispatch({ type: SET_ALL_CHAT, payload: data.data.reverse() });
-};
+export const setallChat =
+  (ty: string) => async (dispatch: Dispatch, getState: any) => {
+    const { data } = await apiService.getChat({ type: ty });
+    dispatch({ type: SET_ALL_CHAT, payload: data.data.reverse() });
+  };
+export const setToggle =
+  (flag: boolean) => async (dispatch: Dispatch, getState: any) => {
+    dispatch({ type: SET_TOGGLE, payload: flag });
+  };
 
 export const setCurrentChat =
   (id: number, ty: string) => async (dispatch: Dispatch, getState: any) => {
@@ -136,6 +152,6 @@ export const sendChatMsg =
       content: msg,
       type: ty,
     });
-   dispatch({ type: ADD_MSG, payload: data.data });
-   dispatch(setallChat(ty))
+    dispatch({ type: ADD_MSG, payload: data.data });
+    dispatch(setallChat(ty));
   };

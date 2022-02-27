@@ -2,40 +2,44 @@ import { Formik } from "formik";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
-import { validationAddMaintenancechema, validationAddOfficeNoteSechema } from "../../assets/constants/validationForm/validationForm";
+import {
+  validationAddMaintenancechema,
+  validationAddOfficeNoteSechema,
+  validationChangePasswordSchema,
+} from "../../assets/constants/validationForm/validationForm";
 import apiService from "../../services/api";
 import { errorToast, successToast } from "../../services/toast/toast";
-import { addOfficeNote } from "../../store/actions/abshur.actions";
+import { addOfficeNote, login } from "../../store/actions/abshur.actions";
 import { rootState } from "../../store/reducers";
 
-const AddOfficeNote = () => {
+const ChangePasswordFormik = () => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
 
-  const currentUnit = useSelector(
-    (state: rootState) => state.abshur.currentUnits
-  );
+  const user = useSelector((state: rootState) => state.abshur.user);
 
   return (
     <>
       <Formik
         initialValues={{
-          request: "",
-          response:"",
-          kind: "feedback",
-          unitId: currentUnit.id,
+          name: "",
+          phone: "",
+          password: "",
+          role: "admin",
+          id: user,
+          notificationToken: "sacsa78ad7sv8",
         }}
-        validationSchema={validationAddOfficeNoteSechema}
+        validationSchema={validationChangePasswordSchema}
         onSubmit={async (values) => {
           try {
             setLoading(true);
-            const { data } = await apiService.addMaintenance(values);
+            const { data } = await apiService.updateUser(values);
             setLoading(false);
 
-            dispatch(addOfficeNote(data.data));
+            dispatch(login(data.data));
 
-            successToast("تم اضافة");
+            successToast("تم التعديل");
           } catch (error: any) {
             setLoading(false);
             errorToast("حدث خطأ اثناء الاضافة حاول مره اخرة");
@@ -46,33 +50,33 @@ const AddOfficeNote = () => {
           <form onSubmit={formik.handleSubmit}>
             <div className="form">
               <div className="col-10">
-                <label className="col-8" htmlFor="response">
-                  {"اسم الادمن"}
+                <label className="col-8" htmlFor="phone">
+                  رقم الهاتف الجديد
                 </label>
                 <input
                   className="col-12"
-                  id="response"
+                  id="phone"
                   type="text"
-                  {...formik.getFieldProps("response")}
+                  {...formik.getFieldProps("phone")}
                 />
-                {formik.touched.response && formik.errors.response ? (
-                  <div className="error m-0">{formik.errors.response}</div>
+                {formik.touched.phone && formik.errors.phone ? (
+                  <div className="error m-0">{formik.errors.phone}</div>
                 ) : null}
               </div>
             </div>
             <div className="form">
               <div className="col-10">
-                <label className="col-8" htmlFor="request">
-                  {"اضافة ملحوظة مكتب"}
+                <label className="col-8" htmlFor="password">
+                  {"كلمه السر الجديدة"}
                 </label>
                 <input
                   className="col-12"
-                  id="request"
-                  type="text"
-                  {...formik.getFieldProps("request")}
+                  id="password"
+                  type="password"
+                  {...formik.getFieldProps("password")}
                 />
-                {formik.touched.request && formik.errors.request ? (
-                  <div className="error m-0">{formik.errors.request}</div>
+                {formik.touched.password && formik.errors.password ? (
+                  <div className="error m-0">{formik.errors.password}</div>
                 ) : null}
               </div>
             </div>
@@ -96,4 +100,4 @@ const AddOfficeNote = () => {
   );
 };
 
-export default AddOfficeNote;
+export default ChangePasswordFormik;

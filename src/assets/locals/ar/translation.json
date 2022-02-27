@@ -73,6 +73,7 @@
     "add": "اضافة"
   },
   "unitDetail": {
+    "admainName": "اسم الادمن",
     "unitNumber": "رقم الوحدة",
     "rentPrice": "قيمة الايجار",
     "payDate": "تاريخ الدفع",

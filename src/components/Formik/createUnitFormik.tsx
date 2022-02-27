@@ -30,17 +30,23 @@ const allPaymentPlan = [
 const CreateUnitFormik: React.FC<Props> = ({ editData }) => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
+  const [loading, setLoading] = useState(false);
 
   const currentProperty = useSelector(
     (state: rootState) => state.abshur.currentProperty
   );
 
   let unit: Unit = {
-    tenantPhone: editData ? editData.tenant.phone : "",
+    tenantPhone: editData
+      ? editData.tenant?.phone
+        ? editData.tenant.phone
+        : ""
+      : "",
     images: {},
     unitNumber: editData ? editData.unitNumber : "",
     propertyId: currentProperty.id,
-    payDate: editData ? getDateFormat(editData.payDate) : "",
+    payDate: undefined,
+    ///    payDate: editData ? getDateFormat(editData.payDate) : "",
     rentalDate: new Date().getTime(),
     rentPrice: editData ? editData.rentPrice : "",
     electricityNumber: editData ? editData.electricityNumber : "",
@@ -79,13 +85,16 @@ const CreateUnitFormik: React.FC<Props> = ({ editData }) => {
         validationSchema={validationCreateUnitSchema}
         onSubmit={async (values) => {
           try {
-            values = {
-              ...values,
-              unitStatus: "empty",
-              payDate: new Date(
-                values.payDate ? values.payDate : ""
-              ).toISOString(),
-            };
+            console.log(values);
+            if (values.payDate && values.payDate !== "") {
+              values = {
+                ...values,
+                payDate: new Date(values.payDate).toISOString(),
+              };
+            } else {
+              delete values.payDate;
+            }
+
             const formData = new FormData();
             Object.entries(values).forEach((element) => {
               if (element[0] === "images") {
@@ -97,18 +106,23 @@ const CreateUnitFormik: React.FC<Props> = ({ editData }) => {
               }
             });
             if (editData) {
-               await apiService.updateUnit({
+              setLoading(true);
+              await apiService.updateUnit({
                 formData,
                 id: editData.id,
               });
+              setLoading(false);
               dispatch(updateUnit(currentProperty.id));
               successToast("تم نعديل الوحده");
             } else {
+              setLoading(true);
               const { data } = await apiService.createUnit(formData);
+              setLoading(false);
               dispatch(addUnit(data.data));
               successToast("تم اضافة الوحده");
             }
           } catch (error: any) {
+            setLoading(false);
             errorToast(error.data.feedback.en);
             if (
               error.data.feedback.en ===
@@ -191,6 +205,7 @@ const CreateUnitFormik: React.FC<Props> = ({ editData }) => {
                   className="col-12"
                   id="payDate"
                   type="date"
+                  title="هذا الحقل اختياري و سوف يتم حساب تاريخ الدفع بعد شهرا من اليوم اذا لم يتم ادخال قيمة"
                   {...formik.getFieldProps("payDate")}
                 />
                 {formik.touched.payDate && formik.errors.payDate ? (
@@ -254,8 +269,18 @@ const CreateUnitFormik: React.FC<Props> = ({ editData }) => {
               </div>
             </div>
             <div className="submit">
-              <button type="submit" className="create-btn mt-5">
-                {editData ? t("create-property.edit") : t("create-unit.add")}
+              <button
+                type="submit"
+                disabled={loading}
+                className="create-btn mt-5"
+              >
+                {loading ? (
+                  <div className="loader"></div>
+                ) : editData ? (
+                  t("create-property.edit")
+                ) : (
+                  t("create-unit.add")
+                )}
               </button>
             </div>
           </form>

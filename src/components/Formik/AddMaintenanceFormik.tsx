@@ -1,4 +1,5 @@
 import { Formik } from "formik";
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
 import { validationAddMaintenancechema } from "../../assets/constants/validationForm/validationForm";
@@ -10,6 +11,7 @@ import { rootState } from "../../store/reducers";
 const AddMaintenanceFormik = () => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
+  const [loading, setLoading] = useState(false);
 
   const currentUnit = useSelector(
     (state: rootState) => state.abshur.currentUnits
@@ -42,11 +44,15 @@ const AddMaintenanceFormik = () => {
                 formData.append(element[0], element[1]);
               }
             });
+            setLoading(true);
             const { data } = await apiService.addMaintenance(formData);
+            setLoading(false);
+
             dispatch(addMaintenance(data.data));
 
             successToast("تم اضافة الصيانة");
           } catch (error: any) {
+            setLoading(false);
             errorToast("حدث خطأ اثناء الاضافة حاول مره اخرة");
           }
         }}
@@ -101,8 +107,16 @@ const AddMaintenanceFormik = () => {
               </div>
             </div>
             <div className="submit">
-              <button type="submit" className="create-btn mt-5">
-                {t("create-property.add")}
+              <button
+                type="submit"
+                disabled={loading}
+                className="create-btn mt-5"
+              >
+                {loading ? (
+                  <div className="loader"></div>
+                ) : (
+                  t("create-property.add")
+                )}
               </button>
             </div>
           </form>

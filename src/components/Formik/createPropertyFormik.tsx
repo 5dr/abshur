@@ -23,6 +23,7 @@ const CreatePropertyFormik: React.FC<Props> = ({ editData }) => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const location = useLocation();
+  const [loading, setLoading] = useState(false);
 
   //const [propertyDate, setPropertyDate] = useState("");
 
@@ -48,10 +49,12 @@ const CreatePropertyFormik: React.FC<Props> = ({ editData }) => {
   const addOrEditProperty = async (values: any) => {
     try {
       if (editData) {
-         await apiService.updateProperty({
+        setLoading(true);
+        await apiService.updateProperty({
           ...values,
           id: editData.id,
         });
+        setLoading(false);
         successToast("تم تعديل العقار");
 
         if (location.pathname === routes.HOME) {
@@ -64,11 +67,14 @@ const CreatePropertyFormik: React.FC<Props> = ({ editData }) => {
           dispatch(updateProperty(Realty_Type.empty));
         }
       } else {
+        setLoading(true);
         const { data } = await apiService.createProperty(values);
+        setLoading(false);
         dispatch(addProperty(data.data));
         successToast("تم اضافة العقار");
       }
     } catch (error: any) {
+      setLoading(false);
       errorToast(error.data.feedback.en);
       if (
         error.data.feedback.en ===
@@ -214,12 +220,16 @@ const CreatePropertyFormik: React.FC<Props> = ({ editData }) => {
             <div className="submit">
               <button
                 type="submit"
-                // onClick={createProperty}
+                disabled={loading}
                 className="create-btn mt-5"
               >
-                {editData
-                  ? t("create-property.edit")
-                  : t("create-property.add")}
+                {loading ? (
+                  <div className="loader"></div>
+                ) : editData ? (
+                  t("create-property.edit")
+                ) : (
+                  t("create-property.add")
+                )}
               </button>
             </div>
           </form>

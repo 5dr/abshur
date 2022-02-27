@@ -1,4 +1,5 @@
 import { Formik } from "formik";
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { User } from "../../assets/constants/type";
 import { validationAddUserSchema } from "../../assets/constants/validationForm/validationForm";
@@ -12,6 +13,8 @@ type Props = {
 
 const AddUserFormik: React.FC<Props> = ({ phone, role }) => {
   const { t } = useTranslation();
+  const [loading, setLoading] = useState(false);
+
   let user: User = {
     name: "",
     phone: phone ? phone : "",
@@ -27,9 +30,12 @@ const AddUserFormik: React.FC<Props> = ({ phone, role }) => {
         onSubmit={async (values) => {
           values = { ...values };
           try {
-             await apiService.register(values);
+            setLoading(true);
+            await apiService.register(values);
+            setLoading(false);
             successToast("تم الاضافة بنجاج");
           } catch (error: any) {
+            setLoading(false);
             errorToast(error.data.feedback.en);
           }
         }}
@@ -83,10 +89,14 @@ const AddUserFormik: React.FC<Props> = ({ phone, role }) => {
             <div className="submit">
               <button
                 type="submit"
-                // onClick={createProperty}
+                disabled={loading}
                 className="create-btn mt-5"
               >
-                {t("create-property.add")}
+                {loading ? (
+                  <div className="loader"></div>
+                ) : (
+                  t("create-property.add")
+                )}
               </button>
             </div>
           </form>

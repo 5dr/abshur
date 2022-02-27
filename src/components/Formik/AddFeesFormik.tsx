@@ -1,4 +1,5 @@
 import { Formik } from "formik";
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
 import { validationAddFeesSchema } from "../../assets/constants/validationForm/validationForm";
@@ -10,6 +11,7 @@ import { rootState } from "../../store/reducers";
 const AddFeesFormik = () => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
+  const [loading, setLoading] = useState(false);
 
   const currentProperty = useSelector(
     (state: rootState) => state.abshur.currentProperty
@@ -36,7 +38,8 @@ const AddFeesFormik = () => {
             } = currentProperty;
             const userPhone = user.phone;
             const allAddedFees = addedFees + parseInt(values.addedFees);
-           await apiService.updateProperty({
+            setLoading(true);
+            await apiService.updateProperty({
               id,
               name,
               number,
@@ -48,9 +51,11 @@ const AddFeesFormik = () => {
               userPhone,
               addedFees: allAddedFees,
             });
+            setLoading(false);
             dispatch(addAddedFees(allAddedFees));
             successToast("تم اضافة");
           } catch (error: any) {
+            setLoading(false);
             errorToast("حدث خطأ اثناء الاضافة حاول مره اخرة");
           }
         }}
@@ -76,10 +81,14 @@ const AddFeesFormik = () => {
             <div className="submit">
               <button
                 type="submit"
-                // onClick={createProperty}
+                disabled={loading}
                 className="create-btn mt-5"
               >
-                {t("create-property.add")}
+                {loading ? (
+                  <div className="loader"></div>
+                ) : (
+                  t("create-property.add")
+                )}
               </button>
             </div>
           </form>

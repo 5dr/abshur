@@ -5,6 +5,7 @@ import routes from "../../../assets/constants/routes";
 import { MenuItem } from "../../../assets/constants/type";
 import useWindowSize from "../../../hooks/useWindowSize";
 import LinkComponent from "../../Link/Link";
+import ChangePassword from "../../Modals/ChangePassword/ChangePassword";
 import CreatePropertyModal from "../../Modals/createProperty/CreateProperty";
 import { ModalType } from "../../Modals/modalType";
 import "./Menu.scss";
@@ -75,6 +76,7 @@ const Menu = () => {
         onModalClose={openCloseModalCreateProperty}
         type={ModalType.createProperty}
       />
+    
       {size.width > 1070 ? (
         <ul className="nav d-flex justify-content-center">
           {MenuItems.map(({ active, name, route }, index) => {
@@ -92,6 +94,14 @@ const Menu = () => {
               {t("home.add-property")}
             </button>
           </li>
+          {/* <li className={`nav-item`}>
+            <button
+              onClick={openCloseModalChangePassword}
+              className="create-btn"
+            >
+              {"تعديل"}
+            </button>
+          </li> */}
         </ul>
       ) : (
         <>
@@ -109,9 +119,20 @@ const Menu = () => {
               );
             })}
           </select>
-          <button onClick={openCloseModalCreateProperty} className="create-btn">
-            {t("home.add-property")}
-          </button>
+          <div className="d-flex flex-column">
+            <button
+              onClick={openCloseModalCreateProperty}
+              className="create-btn"
+            >
+              {t("home.add-property")}
+            </button>
+            {/* <button
+              onClick={openCloseModalChangePassword}
+              className="create-btn"
+            >
+              {"تعديل"}
+            </button> */}
+          </div>
         </>
       )}
     </div>

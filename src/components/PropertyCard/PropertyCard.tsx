@@ -10,11 +10,14 @@ import { ModalType } from "../Modals/modalType";
 import { BiEdit } from "react-icons/bi";
 import "./PropertyCard.scss";
 import { getDateFormat } from "../../assets/constants/memento";
+import { setAllUnit, setToggle } from "../../store/actions/abshur.actions";
+import { SET_UNITS } from "../../store/actions/actionTypes";
 type Props = {
   Property: Realty;
+  status?: string;
 };
 
-const PropertyCard: React.FC<Props> = ({ Property }) => {
+const PropertyCard: React.FC<Props> = ({ Property, status }) => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -24,9 +27,14 @@ const PropertyCard: React.FC<Props> = ({ Property }) => {
     setOpenModalCreateProperty(!openModalCreateProperty);
   };
 
-  const handlrCar = () => {
-    dispatch(setCurrentProperty(Property));
+  const handlrCar = async () => {
     navigate(routes.PROPERTY_DETAIL);
+
+    dispatch(setToggle(true));
+    status
+      ? await dispatch(setCurrentProperty(Property, status))
+      : await dispatch(setCurrentProperty(Property));
+    dispatch(setToggle(false));
   };
 
   return (
@@ -50,7 +58,8 @@ const PropertyCard: React.FC<Props> = ({ Property }) => {
             {t("home.property-name")} :<span> {Property.name}</span>
           </div>
           <div>
-            {t("home.property-date")} :<span> {getDateFormat(Property.propertyDate)}</span>
+            {t("home.property-date")} :
+            <span> {getDateFormat(Property.propertyDate)}</span>
           </div>
           <div>
             {t("home.property-address")} :<span> {Property.address}</span>

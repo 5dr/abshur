@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Realty, Realty_Type } from "../../assets/constants/type";
 import PropertyCard from "../../components/PropertyCard/PropertyCard";
@@ -8,19 +8,41 @@ import "./PropertyEmpty.scss";
 
 const PropertyEmpty = () => {
   const dispatch = useDispatch();
+  const [loading, setLoading] = useState(false);
   const propertyEmpty = useSelector(
     (state: rootState) => state.abshur.propertyEmpty
   );
   useEffect(() => {
-    dispatch(setallProperties(Realty_Type.empty));
+    loadData();
   }, []);
 
+  const loadData = async () => {
+    setLoading(true);
+    await dispatch(setallProperties(Realty_Type.empty));
+    setLoading(false);
+  };
   return (
     <div className="container">
       <div className="propertyEmpty">
-        {propertyEmpty.map((r: any) => {
-          return <PropertyCard key={r.id} Property={r} />;
-        })}
+        {!loading ? (
+          propertyEmpty && propertyEmpty.length > 0 ? (
+            propertyEmpty.map((r: any) => {
+              return (
+                <PropertyCard
+                  key={r.id}
+                  Property={r}
+                  status={Realty_Type.empty}
+                />
+              );
+            })
+          ) : (
+            <div style={{ background: "white", fontSize: "30px" }}>
+              {"لا يوجد عقارات"}
+            </div>
+          )
+        ) : (
+          <div className="bigLoader"></div>
+        )}
       </div>
     </div>
   );

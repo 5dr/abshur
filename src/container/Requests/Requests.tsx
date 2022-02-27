@@ -18,6 +18,7 @@ const Requests = () => {
   const [currType, setCurrType] = useState("maintenance");
   const [currMsg, setCurrMsg] = useState("");
   const [currUid, setCurrUid] = useState(0);
+  const [loading, setLoading] = useState(false);
 
   const toggle = (flag: boolean) => {
     openMaintenance(flag);
@@ -33,8 +34,14 @@ const Requests = () => {
   };
 
   useEffect(() => {
-    dispatch(setallChat(currType));
+    loadData();
   }, [currType]);
+
+  const loadData = async () => {
+    setLoading(true);
+    await dispatch(setallChat(currType));
+    setLoading(false);
+  };
 
   useEffect(() => {
     if (allChat) {
@@ -81,17 +88,23 @@ const Requests = () => {
             {"شكاوي"}
           </button>
         </div>
-        {allChat.map((chat: any, ind: number) => {
-          return (
-            <SingleChat
-              key={ind}
-              handlerCurrInd={handlerCurrInd}
-              ind={ind}
-              chat={chat}
-              active={currInd === ind}
-            />
-          );
-        })}
+        {!loading ? (
+          allChat.map((chat: any, ind: number) => {
+            return (
+              <SingleChat
+                key={ind}
+                handlerCurrInd={handlerCurrInd}
+                ind={ind}
+                chat={chat}
+                active={currInd === ind}
+              />
+            );
+          })
+        ) : (
+          <div className="d-flex justify-content-center" style={{ width: "100%" }}>
+            <div className="bigLoader"></div>
+          </div>
+        )}
       </div>
       <div className="chat-details col-md-7 col-11">
         <div className="chatBody">

@@ -28,7 +28,8 @@
     font-weight: 500;
     margin: 1px;
     span {
-      color: #1a374d;
+      color: var(--color-main-border);
+      opacity: .8;
       font-size: var(--font-size-5);
       font-weight: 500;
     }

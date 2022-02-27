@@ -17,6 +17,8 @@ import {
   SET_ALL_CHAT,
   SET_CURRENT_CHAT,
   ADD_MSG,
+  SET_TOGGLE,
+  SET_USER,
 } from "./../actions/actionTypes";
 
 const initialState: abshurStateType = {
@@ -27,10 +29,12 @@ const initialState: abshurStateType = {
   units: [],
   currentProperty: null,
   currentUnits: null,
+  user: null,
   currentMaintenance: [],
   currentOfficeNote: [],
   allChat: [],
   currentChat: [],
+  loading: false,
 };
 
 export default function abshur(state = initialState, action: any): any {
@@ -89,6 +93,16 @@ export default function abshur(state = initialState, action: any): any {
       return {
         ...state,
         currentChat: [...state.currentChat, action.payload],
+      };
+    case SET_TOGGLE:
+      return {
+        ...state,
+        loading: action.payload,
+      };
+    case SET_USER:
+      return {
+        ...state,
+        user: action.payload,
       };
     default:
       return state;
