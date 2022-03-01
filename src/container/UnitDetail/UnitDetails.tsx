@@ -45,6 +45,7 @@ const UnitDetails = () => {
     setOpenModalYesOrNo(!openModalYesOrNo);
   };
   const pay = async () => {
+    const formData = new FormData();
     const {
       unitNumber,
       propertyId,
@@ -52,20 +53,19 @@ const UnitDetails = () => {
       rentPrice,
       electricityNumber,
       paymentPlan,
-      notes,
       id,
     } = currentUnits;
+    formData.append("payDate", currentUnits.nextPayDate);
+    formData.append("rentPrice", rentPrice);
+    formData.append("unitNumber", unitNumber);
+    formData.append("rentalDate", rentalDate);
+    formData.append("electricityNumber", electricityNumber);
+    formData.append("paymentPlan", paymentPlan);
+    formData.append("propertyId", propertyId);
+
     const { data } = await apiService.updateUnit({
-      unitNumber,
-      propertyId,
-      rentalDate,
-      rentPrice,
-      electricityNumber,
-      paymentPlan,
-      notes,
+      formData,
       id,
-      unitStatus: "empty",
-      payDate: currentUnits.nextPayDate,
     });
     dispatch(setCurrentUnit(data.data));
   };

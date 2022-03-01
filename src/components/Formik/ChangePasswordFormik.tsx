@@ -23,12 +23,10 @@ const ChangePasswordFormik = () => {
     <>
       <Formik
         initialValues={{
-          name: "",
           phone: "",
           password: "",
           role: "admin",
           id: user,
-          notificationToken: "sacsa78ad7sv8",
         }}
         validationSchema={validationChangePasswordSchema}
         onSubmit={async (values) => {
@@ -37,7 +35,7 @@ const ChangePasswordFormik = () => {
             const { data } = await apiService.updateUser(values);
             setLoading(false);
 
-            dispatch(login(data.data));
+           // dispatch(login(data.data));
 
             successToast("تم التعديل");
           } catch (error: any) {
