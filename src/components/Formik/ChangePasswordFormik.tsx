@@ -19,23 +19,33 @@ const ChangePasswordFormik = () => {
 
   const user = useSelector((state: rootState) => state.abshur.user);
 
+  let userUpdate: any = {
+    phone: "",
+    password: "",
+    role: "admin",
+    id: "",
+  };
+
   return (
     <>
       <Formik
-        initialValues={{
-          phone: "",
-          password: "",
-          role: "admin",
-          id: user,
-        }}
+        initialValues={userUpdate}
         validationSchema={validationChangePasswordSchema}
         onSubmit={async (values) => {
           try {
+            values = {
+              ...values,
+              id: user,
+            };
+            if (values.phone === "") {
+              delete values.phone;
+            }
+            if (values.password === "") {
+              delete values.password;
+            }
             setLoading(true);
-            const { data } = await apiService.updateUser(values);
+            await apiService.updateUser(values);
             setLoading(false);
-
-           // dispatch(login(data.data));
 
             successToast("تم التعديل");
           } catch (error: any) {

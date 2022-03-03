@@ -33,8 +33,8 @@ function App() {
       navigate(routes.LOGIN);
     } else {
       navigate(routes.HOME);
-      // getStoredData("userId");
-      // dispatch(login(getStoredData("userId")));
+      getStoredData("userId");
+      dispatch(login(getStoredData("userId")));
     }
   }, [token]);
 

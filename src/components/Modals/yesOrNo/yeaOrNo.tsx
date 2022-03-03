@@ -59,11 +59,12 @@ const YesOrNoModal: React.FC<Props> = ({
                 if (phone) {
                   onModalClose();
                   openCloseModalAddUser();
-                  onModalClose()
+                  onModalClose();
                 } else {
-                  if (onYes) onYes();
-                  onModalClose()
-                  successToast("تم الدفع بنجاج");
+                  if (onYes) {
+                    onYes();
+                    onModalClose();
+                  }
                 }
               }}
               className="yes"

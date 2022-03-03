@@ -24,8 +24,7 @@ const CustomFormik: React.FC<Props> = ({ saveToken }) => {
         try {
           setLoading(true);
           const { data } = await apiService.login(values);
-         // storeData("userId", data.data.id);
-          dispatch(login(data.data));
+          storeData("userId", data.data.id);
           setLoading(false);
           if (data) saveToken("authenticationToken", data.data.accessToken);
         } catch (e) {

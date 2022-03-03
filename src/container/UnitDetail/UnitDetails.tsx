@@ -14,6 +14,8 @@ import apiService from "../../services/api";
 import { Table, Thead, Tbody, Tr, Th, Td } from "react-super-responsive-table";
 import "react-super-responsive-table/dist/SuperResponsiveTableStyle.css";
 import { setCurrentUnit } from "../../store/actions";
+import { errorToast, successToast } from "../../services/toast/toast";
+import { updateUnit } from "../../store/actions/abshur.actions";
 
 const UnitDetails = () => {
   const [notes, openNotes] = useState(true);
@@ -53,6 +55,7 @@ const UnitDetails = () => {
       rentPrice,
       electricityNumber,
       paymentPlan,
+      tenant,
       id,
     } = currentUnits;
     formData.append("payDate", currentUnits.nextPayDate);
@@ -62,12 +65,23 @@ const UnitDetails = () => {
     formData.append("electricityNumber", electricityNumber);
     formData.append("paymentPlan", paymentPlan);
     formData.append("propertyId", propertyId);
+    formData.append("tenantPhone", tenant?.phone);
 
-    const { data } = await apiService.updateUnit({
-      formData,
-      id,
-    });
-    dispatch(setCurrentUnit(data.data));
+    try {
+      const { data } = await apiService.updateUnit({
+        formData,
+        id,
+      });
+      dispatch(setCurrentUnit(data.data));
+      dispatch(updateUnit(propertyId));
+      successToast("تم الدفع بنجاج");
+    } catch (e) {
+      if (tenant?.phone) {
+        errorToast("حدث خطأ اثناء الدفع");
+      } else {
+        errorToast("هذه الوحده فارغة");
+      }
+    }
   };
 
   return (

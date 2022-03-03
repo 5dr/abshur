@@ -85,7 +85,6 @@ const CreateUnitFormik: React.FC<Props> = ({ editData }) => {
         validationSchema={validationCreateUnitSchema}
         onSubmit={async (values) => {
           try {
-            console.log(values);
             if (values.payDate && values.payDate !== "") {
               values = {
                 ...values,

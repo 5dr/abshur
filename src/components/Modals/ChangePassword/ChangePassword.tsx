@@ -33,7 +33,7 @@ const ChangePassword: React.FC<Props> = ({ isOpen, onModalClose }) => {
     >
       <div dir={i18n.dir()} className="ChangePassword">
         <div className="header-modal">
-          تعديل البروفيل
+          <div>تعديل البروفيل</div>
           <CloseIcon onClick={onModalClose} />
         </div>
         <div className="body ">

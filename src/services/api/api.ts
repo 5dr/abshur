@@ -62,7 +62,7 @@ class ApiService {
       type: "PUT",
     },
     updateUser:{
-      url: "/users/{id}",
+      url: "/users/update/{id}",
       type: "PUT",
     },
   };

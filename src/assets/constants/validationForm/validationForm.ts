@@ -11,12 +11,9 @@ export const validationLoginSchema = Yup.object({
 });
 
 export const validationChangePasswordSchema = Yup.object({
-  phone: Yup.string()
-    .min(10, "يجب ان لا يقل عن 10 ارقام")
-    .required("هذه القيمة مطلوبة"),
+  phone: Yup.number().min(10, "يجب ان لا يقل عن 10 ارقام"),
   password: Yup.string()
     .min(6, "يجب ان لا يقل عن 6 احرف")
-    .required("هذه القيمة مطلوبة"),
 });
 
 export const validationCreatePropertySchema = Yup.object({
