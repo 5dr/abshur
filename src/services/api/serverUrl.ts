@@ -1,10 +1,5 @@
-// const d = window.location.hostname.replace(/^www\./, '').split('.');
-// while (d.length > 2) {
-//   d.shift();
-// }
-// const url = 'https://api.' + d.join('.');
-
-const uatUrl = 'https://devstric.com';
+//const uatUrl = 'https://devstric.com';
+const uatUrl = 'https://www.absher.romoznetworks.com';
 
 //const baseUrl = process.env.NODE_ENV === 'production' ? url : uatUrl;
 const baseUrl = uatUrl;
